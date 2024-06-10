@@ -1,15 +1,15 @@
 import React, { SyntheticEvent } from "react";
 import classNames from "classnames";
 
-import { _t } from "../../../languageHandler";
-import SdkConfig from "../../../SdkConfig";
-import { ValidatedServerConfig } from "../../../utils/ValidatedServerConfig";
-import AccessibleButton, { ButtonEvent } from "../elements/AccessibleButton";
-import withValidation, { IFieldState, IValidationResult } from "../elements/Validation";
-import Field from "../elements/Field";
-import CountryDropdown from "./CountryDropdown";
-import EmailField from "./EmailField";
-import { PhoneNumberCountryDefinition } from "../../../phonenumber";
+import { _t } from "matrix-react-sdk/src/languageHandler";
+import SdkConfig from "matrix-react-sdk/src/SdkConfig";
+import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
+import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
+import withValidation, { IFieldState, IValidationResult } from "matrix-react-sdk/src/components/views/elements/Validation";
+import Field from "matrix-react-sdk/src/components/views/elements/Field";
+import CountryDropdown from "matrix-react-sdk/src/components/views/auth/CountryDropdown";
+import EmailField from "matrix-react-sdk/src/components/views/auth/EmailField";
+import { PhoneNumberCountryDefinition } from "matrix-react-sdk/src/phonenumber";
 
 // For validating phone numbers without country codes
 const PHONE_NUMBER_REGEX = /^[0-9()\-\s]*$/;
