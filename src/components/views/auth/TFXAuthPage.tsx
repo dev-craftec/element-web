@@ -1,7 +1,5 @@
 import * as React from "react";
 
-import VectorAuthFooter from "./VectorAuthFooter";
-
 export default class VectorAuthPage extends React.PureComponent {
     public render(): React.ReactElement {
         const modalStyle: React.CSSProperties = {
@@ -24,7 +22,6 @@ export default class VectorAuthPage extends React.PureComponent {
                         {this.props.children}
                     </div>
                 </div>
-                <VectorAuthFooter />
             </div>
         );
     }
