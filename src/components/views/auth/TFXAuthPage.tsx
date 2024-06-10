@@ -1,5 +1,4 @@
 import * as React from "react";
-import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 
 import VectorAuthFooter from "./VectorAuthFooter";
 
