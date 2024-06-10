@@ -10,7 +10,6 @@ import AutoDiscoveryUtils from "matrix-react-sdk/src/utils/AutoDiscoveryUtils";
 import AuthPage from "matrix-react-sdk/src/components/views/auth/AuthPage";
 import PlatformPeg from "matrix-react-sdk/src/PlatformPeg";
 import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
-import { UIFeature } from "matrix-react-sdk/src/settings/UIFeature";
 import { IMatrixClientCreds } from "matrix-react-sdk/src/MatrixClientPeg";
 import PasswordLogin from "matrix-react-sdk/src/components/views/auth/PasswordLogin";
 import InlineSpinner from "matrix-react-sdk/src/components/views/elements/InlineSpinner";
@@ -18,7 +17,6 @@ import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
 import SSOButtons from "matrix-react-sdk/src/components/views/elements/SSOButtons";
 import ServerPicker from "matrix-react-sdk/src/components/views/elements/ServerPicker";
 import AuthBody from "matrix-react-sdk/src/components/views/auth/AuthBody";
-import AuthHeader from "matrix-react-sdk/src/components/views/auth/AuthHeader";
 import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
 import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
 import { filterBoolean } from "matrix-react-sdk/src/utils/arrays";
@@ -510,22 +508,6 @@ export default class TFXLoginComponent extends React.PureComponent<IProps, IStat
                         <div className="mx_AuthBody_paddedFooter_subtitle">{_t("auth|sync_footer_subtitle")}</div>
                     )}
                 </div>
-            );
-        } else if (SettingsStore.getValue(UIFeature.Registration)) {
-            footer = (
-                <span className="mx_AuthBody_changeFlow">
-                    {_t(
-                        "auth|create_account_prompt",
-                        {},
-                        {
-                            a: (sub) => (
-                                <AccessibleButton kind="link_inline" onClick={this.onTryRegisterClick}>
-                                    {sub}
-                                </AccessibleButton>
-                            ),
-                        },
-                    )}
-                </span>
             );
         }
 
