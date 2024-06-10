@@ -1,3 +1,4 @@
 {
-    "src/components/views/auth/AuthPage.tsx": "src/components/views/auth/TFXAuthPage.tsx"
+    "src/components/views/auth/AuthPage.tsx": "src/components/views/auth/TFXAuthPage.tsx",
+    "src/components/views/auth/AuthFooter.tsx": "src/components/views/auth/TFXAuthFooter.tsx"
 }
