@@ -1,5 +1,6 @@
 {
     "src/components/structures/auth/Login.tsx": "src/components/structures/auth/TFXLogin.tsx",
+    "src/components/structures/auth/LoginSplashView.tsx": "src/components/structures/auth/TFXLoginSplashView.tsx",
     "src/components/views/auth/AuthFooter.tsx": "src/components/views/auth/TFXAuthFooter.tsx",
     "src/components/views/auth/AuthHeaderLogo.tsx": "src/components/views/auth/TFXAuthHeaderLogo.tsx",
     "src/components/views/auth/AuthPage.tsx": "src/components/views/auth/TFXAuthPage.tsx",
