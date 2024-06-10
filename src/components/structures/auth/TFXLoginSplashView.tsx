@@ -1,13 +1,13 @@
 import React from "react";
 import { CryptoEvent, MatrixClient } from "matrix-js-sdk/src/matrix";
 
-import { messageForSyncError } from "../../../utils/ErrorUtils";
-import Spinner from "../../views/elements/Spinner";
-import ProgressBar from "../../views/elements/ProgressBar";
-import AccessibleButton, { ButtonEvent } from "../../views/elements/AccessibleButton";
-import { _t } from "../../../languageHandler";
-import { useTypedEventEmitterState } from "../../../hooks/useEventEmitter";
-import SdkConfig from "../../../SdkConfig";
+import { messageForSyncError } from "matrix-react-sdk/src/utils/ErrorUtils";
+import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
+import ProgressBar from "matrix-react-sdk/src/components/views/elements/ProgressBar";
+import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
+import { _t } from "matrix-react-sdk/src/languageHandler";
+import { useTypedEventEmitterState } from "matrix-react-sdk/src/hooks/useEventEmitter";
+import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 
 interface Props {
     /** The matrix client which is logging in */
