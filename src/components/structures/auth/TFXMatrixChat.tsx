@@ -328,7 +328,7 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
                 event?.source?.postMessage("Reply to Host", event.origin ?? "vagrant.tfx.com");
             });
 
-            parent.postMessage("Hello Host", "vagrant.tfx.com");
+            parent.postMessage("Hello Host", "https://vagrant.tfx.com");
         }
 
         // The Rust Crypto SDK will break if two Element instances try to use the same datastore at once, so
