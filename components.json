@@ -1,7 +1,7 @@
 {
     "src/components/structures/auth/Login.tsx": "src/components/structures/auth/TFXLogin.tsx",
     "src/components/structures/auth/LoginSplashView.tsx": "src/components/structures/auth/TFXLoginSplashView.tsx",
-    "src/components/structures/auth/MatrixChat.tsx": "src/components/structures/auth/TFXMatrixChat.tsx",
+    "src/components/structures/MatrixChat.tsx": "src/components/structures/TFXMatrixChat.tsx",
     "src/components/views/auth/AuthBody.tsx": "src/components/views/auth/TFXAuthBody.tsx",
     "src/components/views/auth/AuthFooter.tsx": "src/components/views/auth/TFXAuthFooter.tsx",
     "src/components/views/auth/AuthHeaderLogo.tsx": "src/components/views/auth/TFXAuthHeaderLogo.tsx",
