@@ -34,8 +34,8 @@ import { showRoomInviteDialog, showStartChatInviteDialog } from "matrix-react-sd
 import * as Rooms from "matrix-react-sdk/src/Rooms";
 import * as Lifecycle from "matrix-react-sdk/src/Lifecycle";
 // LifecycleStore is not used but does listen to and dispatch actions
-import "../../stores/LifecycleStore";
-import "../../stores/AutoRageshakeStore";
+import "matrix-react-sdk/src/stores/LifecycleStore";
+import "matrix-react-sdk/src/stores/AutoRageshakeStore";
 import PageType from "matrix-react-sdk/src/PageTypes";
 import createRoom, { IOpts } from "matrix-react-sdk/src/createRoom";
 import { _t, _td } from "matrix-react-sdk/src/languageHandler";
