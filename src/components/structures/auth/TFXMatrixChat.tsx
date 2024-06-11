@@ -298,14 +298,6 @@ export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
         } else {
             this.startInitSession();
         }
-
-        window.addEventListener("message", (event) => {
-            console.log("IFrame", event);
-
-            event?.source?.postMessage("Reply to Host", event.origin ?? "vagrant.tfx.com");
-        });
-
-        parent.postMessage("Hello Host", "vagrant.tfx.com");
     }
 
     /**
@@ -329,6 +321,14 @@ export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
      *  * If all else fails, present a login screen.
      */
     private async initSession(): Promise<void> {
+        window.addEventListener("message", (event) => {
+            console.log("IFrame", event);
+
+            event?.source?.postMessage("Reply to Host", event.origin ?? "vagrant.tfx.com");
+        });
+
+        parent.postMessage("Hello Host", "vagrant.tfx.com");
+
         // The Rust Crypto SDK will break if two Element instances try to use the same datastore at once, so
         // make sure we are the only Element instance in town (on this browser/domain).
         if (!(await getSessionLock(() => this.onSessionLockStolen()))) {
