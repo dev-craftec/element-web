@@ -1,4 +1,5 @@
 {
+    "res/css/views/auth/_AuthBody.pcss": "res/css/views/auth/_TFXAuthBody.pcss",
     "src/components/structures/auth/Login.tsx": "src/components/structures/auth/TFXLogin.tsx",
     "src/components/structures/auth/LoginSplashView.tsx": "src/components/structures/auth/TFXLoginSplashView.tsx",
     "src/components/views/auth/AuthBody.tsx": "src/components/views/auth/TFXAuthBody.tsx",

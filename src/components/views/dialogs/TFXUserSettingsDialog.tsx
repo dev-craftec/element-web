@@ -195,7 +195,7 @@ export default function TFXUserSettingsDialog(props: IProps): JSX.Element {
         return tabs as NonEmptyArray<Tab<UserTab>>;
     };
 
-    const [activeTabId, _setActiveTabId] = useActiveTabWithDefault(getTabs(), UserTab.General, props.initialTabId);
+    const [activeTabId, _setActiveTabId] = useActiveTabWithDefault(getTabs(), UserTab.Appearance, props.initialTabId);
     const setActiveTabId = (tabId: UserTab): void => {
         _setActiveTabId(tabId);
         // Clear this so switching away from the tab and back to it will not show the QR code again
