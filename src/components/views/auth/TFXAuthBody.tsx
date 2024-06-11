@@ -7,5 +7,13 @@ interface Props {
 }
 
 export default function TFXAuthBody({ flex, className, children }: PropsWithChildren<Props>): JSX.Element {
-    return <main className={classNames("mx_AuthBody", className, { mx_AuthBody_flex: flex })}>{children}</main>;
+    const style: React.CSSProperties = {
+        borderRadius: "4px",
+    };
+
+    return (
+        <main className={classNames("mx_AuthBody", className, { mx_AuthBody_flex: flex })} style={style}>
+            {children}
+        </main>
+    );
 }
