@@ -65,7 +65,7 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
     }
 }
 
-export default function TFXUserSettingsDialog(props: IProps): JSX.Element {
+export default function UserSettingsDialog(props: IProps): JSX.Element {
     const voipEnabled = useSettingValue<boolean>(UIFeature.Voip);
     const mjolnirEnabled = useSettingValue<boolean>("feature_mjolnir");
     // store this prop in state as changing tabs back and forth should clear it

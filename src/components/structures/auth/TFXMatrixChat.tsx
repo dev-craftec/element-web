@@ -201,7 +201,7 @@ interface IState {
     forceTimeline?: boolean; // see props
 }
 
-export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
+export default class MatrixChat extends React.PureComponent<IProps, IState> {
     public static displayName = "MatrixChat";
 
     public static defaultProps = {
@@ -321,13 +321,15 @@ export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
      *  * If all else fails, present a login screen.
      */
     private async initSession(): Promise<void> {
-        window.addEventListener("message", (event) => {
-            console.log("IFrame", event);
+        if (parent) {
+            window.addEventListener("message", (event) => {
+                console.log("IFrame", event);
 
-            event?.source?.postMessage("Reply to Host", event.origin ?? "vagrant.tfx.com");
-        });
+                event?.source?.postMessage("Reply to Host", event.origin ?? "vagrant.tfx.com");
+            });
 
-        parent.postMessage("Hello Host", "vagrant.tfx.com");
+            parent.postMessage("Hello Host", "vagrant.tfx.com");
+        }
 
         // The Rust Crypto SDK will break if two Element instances try to use the same datastore at once, so
         // make sure we are the only Element instance in town (on this browser/domain).
@@ -1630,14 +1632,14 @@ export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
             if (haveNewVersion) {
                 Modal.createDialogAsync(
                     import(
-                        "../../async-components/views/dialogs/security/NewRecoveryMethodDialog"
+                        "matrix-react-sdk/src/async-components/views/dialogs/security/NewRecoveryMethodDialog"
                     ) as unknown as Promise<typeof NewRecoveryMethodDialog>,
                     { newVersionInfo: newVersionInfo! },
                 );
             } else {
                 Modal.createDialogAsync(
                     import(
-                        "../../async-components/views/dialogs/security/RecoveryMethodRemovedDialog"
+                        "matrix-react-sdk/src/async-components/views/dialogs/security/RecoveryMethodRemovedDialog"
                     ) as unknown as Promise<typeof RecoveryMethodRemovedDialog>,
                 );
             }

@@ -80,7 +80,7 @@ type OnPasswordLogin = {
 /*
  * A wire component which glues together login UI components and Login logic
  */
-export default class TFXLoginComponent extends React.PureComponent<IProps, IState> {
+export default class LoginComponent extends React.PureComponent<IProps, IState> {
     private unmounted = false;
     private oidcNativeFlowEnabled = false;
     private loginLogic!: Login;

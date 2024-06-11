@@ -6,7 +6,7 @@ interface Props {
     flex?: boolean;
 }
 
-export default function TFXAuthBody({ flex, className, children }: PropsWithChildren<Props>): JSX.Element {
+export default function AuthBody({ flex, className, children }: PropsWithChildren<Props>): JSX.Element {
     const style: React.CSSProperties = {
         borderRadius: "4px",
     };

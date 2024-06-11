@@ -1,7 +1,7 @@
 import React from "react";
 
-const TFXServerPicker: React.FC = () => {
+const ServerPicker: React.FC = () => {
     return null;
 };
 
-export default TFXServerPicker;
+export default ServerPicker;

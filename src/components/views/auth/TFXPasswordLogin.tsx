@@ -52,7 +52,7 @@ const enum LoginField {
  * A pure UI component which displays a username/password form.
  * The email/username/phone fields are fully-controlled, the password field is not.
  */
-export default class TFXPasswordLogin extends React.PureComponent<IProps, IState> {
+export default class PasswordLogin extends React.PureComponent<IProps, IState> {
     private [LoginField.Email]: Field | null = null;
     private [LoginField.Phone]: Field | null = null;
     private [LoginField.MatrixId]: Field | null = null;
