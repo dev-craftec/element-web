@@ -34,7 +34,7 @@ type MigrationState = {
 /**
  * The view that is displayed after we have logged in, before the first /sync is completed.
  */
-export function TFXLoginSplashView(props: Props): React.JSX.Element {
+export function LoginSplashView(props: Props): React.JSX.Element {
     const migrationState = useTypedEventEmitterState(
         props.matrixClient,
         CryptoEvent.LegacyCryptoStoreMigrationProgress,

@@ -6,6 +6,6 @@ interface Props {
     flex?: boolean;
 }
 
-export default function AuthBody({ flex, className, children }: PropsWithChildren<Props>): JSX.Element {
+export default function TFXAuthBody({ flex, className, children }: PropsWithChildren<Props>): JSX.Element {
     return <main className={classNames("mx_AuthBody", className, { mx_AuthBody_flex: flex })}>{children}</main>;
 }
