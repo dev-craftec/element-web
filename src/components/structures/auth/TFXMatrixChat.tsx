@@ -323,14 +323,14 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     private async initSession(): Promise<void> {
         if (parent) {
             window.addEventListener("message", (event) => {
-                if (event.origin !== "https://vagrant.tfx.com") return;
+                // if (event.origin !== "https://vagrant.tfx.com") return;
 
                 console.log("IFrame", event);
 
                 event?.source?.postMessage("Reply to Host", event.origin);
             });
 
-            parent.postMessage("Hello Host", "https://vagrant.tfx.com");
+            parent.postMessage("Hello Host", "*");
         }
 
         // The Rust Crypto SDK will break if two Element instances try to use the same datastore at once, so
