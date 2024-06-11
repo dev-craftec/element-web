@@ -5,7 +5,9 @@ import TabbedView, { Tab, useActiveTabWithDefault } from "matrix-react-sdk/src/c
 import { _t, _td } from "matrix-react-sdk/src/languageHandler";
 import GeneralUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/GeneralUserSettingsTab";
 import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
-import LabsUserSettingsTab, { showLabsFlags } from "matrix-react-sdk/src/components/views/settings/tabs/user/LabsUserSettingsTab";
+import LabsUserSettingsTab, {
+    showLabsFlags,
+} from "matrix-react-sdk/src/components/views/settings/tabs/user/LabsUserSettingsTab";
 import AppearanceUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/AppearanceUserSettingsTab";
 import SecurityUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/SecurityUserSettingsTab";
 import NotificationUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/NotificationUserSettingsTab";
@@ -36,10 +38,10 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
         strong: (sub: string) => <strong>{sub}</strong>,
     };
     switch (tabId) {
-        case UserTab.General:
-            return _t("settings|general|dialog_title", undefined, subs);
-        case UserTab.SessionManager:
-            return _t("settings|sessions|dialog_title", undefined, subs);
+        // case UserTab.General:
+        // return _t("settings|general|dialog_title", undefined, subs);
+        // case UserTab.SessionManager:
+        // return _t("settings|sessions|dialog_title", undefined, subs);
         case UserTab.Appearance:
             return _t("settings|appearance|dialog_title", undefined, subs);
         case UserTab.Notifications:
@@ -52,10 +54,10 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
             return _t("settings|sidebar|dialog_title", undefined, subs);
         case UserTab.Voice:
             return _t("settings|voip|dialog_title", undefined, subs);
-        case UserTab.Security:
-            return _t("settings|security|dialog_title", undefined, subs);
-        case UserTab.Labs:
-            return _t("settings|labs|dialog_title", undefined, subs);
+        // case UserTab.Security:
+        // return _t("settings|security|dialog_title", undefined, subs);
+        // case UserTab.Labs:
+        // return _t("settings|labs|dialog_title", undefined, subs);
         case UserTab.Mjolnir:
             return _t("settings|labs_mjolnir|dialog_title", undefined, subs);
         case UserTab.Help:

@@ -15,7 +15,6 @@ import PasswordLogin from "matrix-react-sdk/src/components/views/auth/PasswordLo
 import InlineSpinner from "matrix-react-sdk/src/components/views/elements/InlineSpinner";
 import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
 import SSOButtons from "matrix-react-sdk/src/components/views/elements/SSOButtons";
-import ServerPicker from "matrix-react-sdk/src/components/views/elements/ServerPicker";
 import AuthBody from "matrix-react-sdk/src/components/views/auth/AuthBody";
 import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
 import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export default class VectorAuthPage extends React.PureComponent {
+export default class TFXAuthPage extends React.PureComponent {
     public render(): React.ReactElement {
         const modalStyle: React.CSSProperties = {
             position: "relative",

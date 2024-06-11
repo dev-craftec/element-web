@@ -4,8 +4,11 @@ import classNames from "classnames";
 import { _t } from "matrix-react-sdk/src/languageHandler";
 import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
-import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
-import withValidation, { IFieldState, IValidationResult } from "matrix-react-sdk/src/components/views/elements/Validation";
+import { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
+import withValidation, {
+    IFieldState,
+    IValidationResult,
+} from "matrix-react-sdk/src/components/views/elements/Validation";
 import Field from "matrix-react-sdk/src/components/views/elements/Field";
 import CountryDropdown from "matrix-react-sdk/src/components/views/auth/CountryDropdown";
 import EmailField from "matrix-react-sdk/src/components/views/auth/EmailField";
@@ -74,12 +77,6 @@ export default class TFXPasswordLogin extends React.PureComponent<IProps, IState
             password: "",
         };
     }
-
-    private onForgotPasswordClick = (ev: ButtonEvent): void => {
-        ev.preventDefault();
-        ev.stopPropagation();
-        this.props.onForgotPasswordClick?.();
-    };
 
     private onSubmitForm = async (ev: SyntheticEvent): Promise<void> => {
         ev.preventDefault();

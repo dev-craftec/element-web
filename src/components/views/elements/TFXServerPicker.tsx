@@ -1,6 +1,6 @@
 import React from "react";
 
-const TFXServerPicker: React.FC<IProps> = () => {
+const TFXServerPicker: React.FC = () => {
     return null;
 };
 

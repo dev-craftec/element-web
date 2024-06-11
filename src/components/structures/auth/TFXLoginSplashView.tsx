@@ -4,7 +4,7 @@ import { CryptoEvent, MatrixClient } from "matrix-js-sdk/src/matrix";
 import { messageForSyncError } from "matrix-react-sdk/src/utils/ErrorUtils";
 import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
 import ProgressBar from "matrix-react-sdk/src/components/views/elements/ProgressBar";
-import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
+import { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
 import { _t } from "matrix-react-sdk/src/languageHandler";
 import { useTypedEventEmitterState } from "matrix-react-sdk/src/hooks/useEventEmitter";
 import SdkConfig from "matrix-react-sdk/src/SdkConfig";
@@ -34,7 +34,7 @@ type MigrationState = {
 /**
  * The view that is displayed after we have logged in, before the first /sync is completed.
  */
-export function LoginSplashView(props: Props): React.JSX.Element {
+export function TFXLoginSplashView(props: Props): React.JSX.Element {
     const migrationState = useTypedEventEmitterState(
         props.matrixClient,
         CryptoEvent.LegacyCryptoStoreMigrationProgress,
