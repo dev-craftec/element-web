@@ -316,7 +316,7 @@ export default class TFXMatrixChat extends React.PureComponent<IProps, IState> {
             event.source.postMessage("Reply to Host", event.origin);
         });
 
-        parent.postMessage("Hello Host");
+        parent.postMessage("Hello Host", "vagrant.tfx.com");
     }
 
     /**
