@@ -229,6 +229,18 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     private readonly stores: SdkContextClass;
 
     public constructor(props: IProps) {
+        console.log("Listening for messages on IFrame");
+        window.addEventListener("message", (event) => {
+            // if (event.origin !== "https://vagrant.tfx.com") return;
+
+            console.log("IFrame", event);
+
+            event?.source?.postMessage("Reply to Host", event.origin);
+        });
+
+        console.log("Posting message to Host");
+        parent.postMessage("Hello Host", "*");
+
         super(props);
         this.stores = SdkContextClass.instance;
         this.stores.constructEagerStores();
@@ -298,18 +310,6 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
         } else {
             this.startInitSession();
         }
-
-        console.log("Listening for messages on IFrame");
-        window.addEventListener("message", (event) => {
-            // if (event.origin !== "https://vagrant.tfx.com") return;
-
-            console.log("IFrame", event);
-
-            event?.source?.postMessage("Reply to Host", event.origin);
-        });
-
-        console.log("Posting message to Host");
-        parent.postMessage("Hello Host", "*");
     }
 
     /**
