@@ -230,13 +230,17 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
 
     public constructor(props: IProps) {
         console.log("Listening for messages on IFrame");
-        window.addEventListener("message", (event) => {
-            if (event.origin !== "https://vagrant.tfx.com") return;
+        window.addEventListener(
+            "message",
+            (event) => {
+                if (event.origin !== "https://vagrant.tfx.com") return;
 
-            console.log("IFrame", event);
+                console.log("IFrame", event);
 
-            event?.source?.postMessage("Reply to Host", event.origin);
-        });
+                event?.source?.postMessage("Reply to Host", event.origin);
+            },
+            { once: true },
+        );
 
         console.log("Posting message to Host");
         parent.postMessage("Hello Host", "*");
