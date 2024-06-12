@@ -229,21 +229,15 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     private readonly stores: SdkContextClass;
 
     public constructor(props: IProps) {
-        console.log("Parent", parent.location);
-        console.log("Listening for messages on IFrame");
-        window.addEventListener(
-            "message",
-            (event) => {
-                if (event.origin !== "https://vagrant.tfx.com") return;
-
-                console.log("IFrame", event);
-
-                event.source.postMessage("Reply to Host", event.origin);
-            },
-            { once: true },
-        );
-
-        console.log("Posting message to Host");
+        console.log("[IFrame] Parent", parent.location);
+        console.log("[IFrame] Listening for messages");
+        window.addEventListener("message", (event) => {
+            console.log("[IFrame] Received message from origin", event.origin);
+            if (event.origin !== "https://vagrant.tfx.com") return;
+            console.log("[IFrame] Received event", event);
+            event.source.postMessage("I've got the API key", event.origin);
+        });
+        console.log("[IFrame] Sending Hello message to Host");
         parent.postMessage("Hello Host", "*");
 
         super(props);
