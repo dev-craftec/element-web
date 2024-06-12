@@ -131,8 +131,8 @@ export default class LoginComponent extends React.PureComponent<IProps, IState> 
                 parent.postMessage("I've got the API key", "*");
                 window.removeEventListener("message", handleMessage);
                 const data = JSON.parse(event.data) as IMatrixClientCreds;
-                // Lifecycle.setLoggedIn(data);
-                window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
+                Lifecycle.setLoggedIn(data);
+                // window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
             }
         };
         window.addEventListener("message", handleMessage);
