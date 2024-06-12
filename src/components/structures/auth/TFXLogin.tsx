@@ -21,6 +21,7 @@ import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServe
 import { filterBoolean } from "matrix-react-sdk/src/utils/arrays";
 import { Features } from "matrix-react-sdk/src/settings/Settings";
 import { startOidcLogin } from "matrix-react-sdk/src/utils/oidc/authorize";
+import * as Lifecycle from "matrix-react-sdk/src/Lifecycle";
 
 interface IProps {
     serverConfig: ValidatedServerConfig;
