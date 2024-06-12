@@ -321,22 +321,6 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
      *  * If all else fails, present a login screen.
      */
     private async initSession(): Promise<void> {
-        console.log("[IFrame] Listening for messages");
-        const handleMessage = (event: MessageEvent): void => {
-            if (event.origin !== "https://vagrant.tfx.com") return;
-            console.log("[IFrame] Received event", event);
-            if (typeof event.data === "string") {
-                parent.postMessage("I've got the API key", "*");
-                window.removeEventListener("message", handleMessage);
-                const data = JSON.parse(event.data) as IMatrixClientCreds;
-                // Lifecycle.setLoggedIn(data);
-                window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
-            }
-        };
-        window.addEventListener("message", handleMessage);
-        console.log("[IFrame] Sending Hello message to Host");
-        parent.postMessage("Hello Host", "*");
-
         // The Rust Crypto SDK will break if two Element instances try to use the same datastore at once, so
         // make sure we are the only Element instance in town (on this browser/domain).
         if (!(await getSessionLock(() => this.onSessionLockStolen()))) {
