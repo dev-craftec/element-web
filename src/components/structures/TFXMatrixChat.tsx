@@ -237,11 +237,7 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
                 parent.postMessage("I've got the API key", "*");
                 window.removeEventListener("message", handleMessage);
                 const data = JSON.parse(event.data);
-                Lifecycle.setLoggedIn({
-                    homeserverUrl: data.homeserverUrl,
-                    userId: data.userId,
-                    accessToken: data.accessToken,
-                });
+                Lifecycle.setLoggedIn(data);
             }
         };
         window.addEventListener("message", handleMessage);
