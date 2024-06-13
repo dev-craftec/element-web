@@ -21,7 +21,6 @@ import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServe
 import { filterBoolean } from "matrix-react-sdk/src/utils/arrays";
 import { Features } from "matrix-react-sdk/src/settings/Settings";
 import { startOidcLogin } from "matrix-react-sdk/src/utils/oidc/authorize";
-import * as Lifecycle from "matrix-react-sdk/src/Lifecycle";
 
 interface IProps {
     serverConfig: ValidatedServerConfig;
@@ -124,22 +123,6 @@ export default class LoginComponent extends React.PureComponent<IProps, IState> 
     }
 
     public componentDidMount(): void {
-        console.log("[IFrame] Listening for messages");
-        const handleMessage = (event: MessageEvent): void => {
-            if (event.origin !== "https://vagrant.tfx.com") return;
-            console.log("[IFrame] Received event", event);
-            if (typeof event.data === "string") {
-                parent.postMessage("I've got the API key", "*");
-                window.removeEventListener("message", handleMessage);
-                const data = JSON.parse(event.data) as IMatrixClientCreds;
-                Lifecycle.setLoggedIn(data);
-                // window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
-            }
-        };
-        window.addEventListener("message", handleMessage);
-        console.log("[IFrame] Sending Hello message to Host");
-        parent.postMessage("Hello Host", "*");
-
         this.initLoginLogic(this.props.serverConfig);
     }
 

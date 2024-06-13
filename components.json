@@ -9,5 +9,6 @@
     "src/components/views/auth/AuthPage.tsx": "src/components/views/auth/TFXAuthPage.tsx",
     "src/components/views/auth/PasswordLogin.tsx": "src/components/views/auth/TFXPasswordLogin.tsx",
     "src/components/views/dialogs/UserSettingsDialog.tsx": "src/components/views/dialogs/TFXUserSettingsDialog.tsx",
-    "src/components/views/elements/ServerPicker.tsx": "src/components/views/elements/TFXServerPicker.tsx"
+    "src/components/views/elements/ServerPicker.tsx": "src/components/views/elements/TFXServerPicker.tsx",
+    "src/vector/app.tsx": "src/vector/tfx-app.tsx"
 }
