@@ -73,7 +73,6 @@
     "dependencies": {
         "@matrix-org/olm": "3.2.15",
         "@matrix-org/react-sdk-module-api": "^2.3.0",
-        "gfm.css": "^1.1.2",
         "jsrsasign": "^11.0.0",
         "katex": "^0.16.0",
         "lodash": "^4.17.21",
@@ -191,7 +190,6 @@
         "raw-loader": "^4.0.2",
         "rimraf": "^5.0.0",
         "semver": "^7.5.2",
-        "setimmediate": "^1.0.5",
         "string-replace-loader": "3",
         "style-loader": "4",
         "stylelint": "^16.1.0",
