@@ -13,7 +13,6 @@ import {
 } from "@vector-im/compound-web";
 import { Icon as SearchIcon } from "@vector-im/compound-design-tokens/icons/search.svg";
 import { Icon as FavouriteIcon } from "@vector-im/compound-design-tokens/icons/favourite.svg";
-import { Icon as UserAddIcon } from "@vector-im/compound-design-tokens/icons/user-add.svg";
 import { Icon as UserProfileSolidIcon } from "@vector-im/compound-design-tokens/icons/user-profile-solid.svg";
 import { Icon as LinkIcon } from "@vector-im/compound-design-tokens/icons/link.svg";
 import { Icon as SettingsIcon } from "@vector-im/compound-design-tokens/icons/settings.svg";
@@ -24,7 +23,7 @@ import { Icon as PinIcon } from "@vector-im/compound-design-tokens/icons/pin.svg
 import { Icon as LockIcon } from "@vector-im/compound-design-tokens/icons/lock-solid.svg";
 import { Icon as PublicIcon } from "@vector-im/compound-design-tokens/icons/public.svg";
 import { Icon as ChevronDownIcon } from "@vector-im/compound-design-tokens/icons/chevron-down.svg";
-import { EventType, JoinRule, Room, RoomStateEvent } from "matrix-js-sdk/src/matrix";
+import { EventType, JoinRule, Room } from "matrix-js-sdk/src/matrix";
 
 import MatrixClientContext from "matrix-react-sdk/src/contexts/MatrixClientContext";
 import { useIsEncrypted } from "matrix-react-sdk/src/hooks/useIsEncrypted";
@@ -66,8 +65,6 @@ import { Flex } from "matrix-react-sdk/src/components/utils/Flex";
 import RoomListStore, { LISTS_UPDATE_EVENT } from "matrix-react-sdk/src/stores/room-list/RoomListStore";
 import { DefaultTagID } from "matrix-react-sdk/src/stores/room-list/models";
 import { tagRoom } from "matrix-react-sdk/src/utils/room/tagRoom";
-import { canInviteTo } from "matrix-react-sdk/src/utils/room/canInviteTo";
-import { inviteToRoom } from "matrix-react-sdk/src/utils/room/inviteToRoom";
 import { useAccountData } from "matrix-react-sdk/src/hooks/useAccountData";
 import { useRoomState } from "matrix-react-sdk/src/hooks/useRoomState";
 import { useTopic } from "matrix-react-sdk/src/hooks/room/useTopic";
@@ -374,13 +371,6 @@ const RoomSummaryCard: React.FC<IProps> = ({ room, permalinkCreator, onClose, on
         });
     };
 
-    const onLeaveRoomClick = (): void => {
-        defaultDispatcher.dispatch({
-            action: "leave_room",
-            room_id: room.roomId,
-        });
-    };
-
     const onRoomMembersClick = (ev: Event): void => {
         RightPanelStore.instance.pushCard({ phase: RightPanelPhases.RoomMemberList }, true);
         PosthogTrackers.trackInteraction("WebRightPanelRoomInfoPeopleButton", ev);
@@ -459,7 +449,6 @@ const RoomSummaryCard: React.FC<IProps> = ({ room, permalinkCreator, onClose, on
     const roomTags = useEventEmitterState(RoomListStore.instance, LISTS_UPDATE_EVENT, () =>
         RoomListStore.instance.getTagsForRoom(room),
     );
-    const canInviteToState = useEventEmitterState(room, RoomStateEvent.Update, () => canInviteTo(room));
     const isFavorite = roomTags.includes(DefaultTagID.Favourite);
 
     return (
@@ -503,12 +492,6 @@ const RoomSummaryCard: React.FC<IProps> = ({ room, permalinkCreator, onClose, on
                     onChange={() => tagRoom(room, DefaultTagID.Favourite)}
                     // XXX: https://github.com/element-hq/compound/issues/288
                     onSelect={() => {}}
-                />
-                <MenuItem
-                    Icon={UserAddIcon}
-                    label={_t("action|invite")}
-                    disabled={!canInviteToState}
-                    onSelect={() => inviteToRoom(room)}
                 />
                 <MenuItem Icon={LinkIcon} label={_t("action|copy_link")} onSelect={onShareRoomClick} />
                 <MenuItem Icon={SettingsIcon} label={_t("common|settings")} onSelect={onRoomSettingsClick} />
