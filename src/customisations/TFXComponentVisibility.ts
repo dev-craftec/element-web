@@ -24,6 +24,7 @@ function shouldShowComponent(component: UIComponent): boolean {
     if (component === UIComponent.AddIntegrations) return false;
     if (component === UIComponent.FilterContainer) return false;
     if (component === UIComponent.RoomOptionsMenu) return false;
+    console.log(component);
     return true;
 }
 
