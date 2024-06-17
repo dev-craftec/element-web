@@ -17,6 +17,7 @@ import { UIComponent } from "matrix-react-sdk/src/settings/UIFeature";
  * otherwise.
  */
 function shouldShowComponent(component: UIComponent): boolean {
+    console.log(component);
     if (component === UIComponent.InviteUsers) return false;
     if (component === UIComponent.CreateRooms) return false;
     if (component === UIComponent.CreateSpaces) return false;
@@ -24,7 +25,6 @@ function shouldShowComponent(component: UIComponent): boolean {
     if (component === UIComponent.AddIntegrations) return false;
     if (component === UIComponent.FilterContainer) return false;
     if (component === UIComponent.RoomOptionsMenu) return false;
-    console.log(component);
     return true;
 }
 
