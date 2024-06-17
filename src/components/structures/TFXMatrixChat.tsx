@@ -134,6 +134,8 @@ import { SessionLockStolenView } from "matrix-react-sdk/src/components/structure
 import { ConfirmSessionLockTheftView } from "matrix-react-sdk/src/components/structures/auth/ConfirmSessionLockTheftView";
 import { LoginSplashView } from "matrix-react-sdk/src/components/structures/auth/LoginSplashView";
 
+console.log("Loaded TFXMatrixChat");
+
 // legacy export
 export { default as Views } from "matrix-react-sdk/src/Views";
 

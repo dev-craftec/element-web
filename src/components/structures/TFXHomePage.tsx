@@ -7,6 +7,8 @@ import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 import { useMatrixClientContext } from "matrix-react-sdk/src/contexts/MatrixClientContext";
 import EmbeddedPage from "matrix-react-sdk/src/components/structures/EmbeddedPage";
 
+console.log("Loaded TFXHomePage");
+
 interface IProps {
     justRegistered?: boolean;
 }

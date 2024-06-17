@@ -9,6 +9,8 @@ import { _t } from "matrix-react-sdk/src/languageHandler";
 import { useTypedEventEmitterState } from "matrix-react-sdk/src/hooks/useEventEmitter";
 import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 
+console.log("Loaded TFXLoginSplashView");
+
 interface Props {
     /** The matrix client which is logging in */
     matrixClient: MatrixClient;

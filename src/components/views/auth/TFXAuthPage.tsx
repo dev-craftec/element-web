@@ -1,5 +1,7 @@
 import * as React from "react";
 
+console.log("Loaded TFXAuthPage");
+
 export default class AuthPage extends React.PureComponent {
     public render(): React.ReactElement {
         const modalStyle: React.CSSProperties = {

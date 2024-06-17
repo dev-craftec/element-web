@@ -38,6 +38,8 @@ import { shouldShowFeedback } from "matrix-react-sdk/src/utils/Feedback";
 import { shouldShowQr } from "matrix-react-sdk/src/components/views/settings/devices/LoginWithQRSection";
 import { Features } from "matrix-react-sdk/src/settings/Settings";
 
+console.log("Loaded TFXUserMenu");
+
 interface IProps {
     isPanelCollapsed: boolean;
     children?: ReactNode;

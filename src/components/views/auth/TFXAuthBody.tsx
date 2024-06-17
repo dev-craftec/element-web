@@ -1,6 +1,8 @@
 import classNames from "classnames";
 import React, { PropsWithChildren } from "react";
 
+console.log("Loaded TFXAuthBody");
+
 interface Props {
     className?: string;
     flex?: boolean;

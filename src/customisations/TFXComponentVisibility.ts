@@ -6,6 +6,8 @@
 
 import { UIComponent } from "matrix-react-sdk/src/settings/UIFeature";
 
+console.log("Loaded TFXComponentVisibility");
+
 /**
  * Determines whether or not the active MatrixClient user should be able to use
  * the given UI component. If shown, the user might still not be able to use the
@@ -17,7 +19,7 @@ import { UIComponent } from "matrix-react-sdk/src/settings/UIFeature";
  * otherwise.
  */
 function shouldShowComponent(component: UIComponent): boolean {
-    console.log(component);
+    console.log("shouldShowComponent", component);
     if (component === UIComponent.InviteUsers) return false;
     if (component === UIComponent.CreateRooms) return false;
     if (component === UIComponent.CreateSpaces) return false;
@@ -40,4 +42,5 @@ export interface IComponentVisibilityCustomisations {
 export const ComponentVisibilityCustomisations: IComponentVisibilityCustomisations = {
     // while we don't specify the functions here, their defaults are described
     // in their pseudo-implementations above.
+    shouldShowComponent,
 };

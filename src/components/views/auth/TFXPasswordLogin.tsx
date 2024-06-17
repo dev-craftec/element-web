@@ -13,6 +13,8 @@ import CountryDropdown from "matrix-react-sdk/src/components/views/auth/CountryD
 import EmailField from "matrix-react-sdk/src/components/views/auth/EmailField";
 import { PhoneNumberCountryDefinition } from "matrix-react-sdk/src/phonenumber";
 
+console.log("Loaded TFXPasswordLogin");
+
 // For validating phone numbers without country codes
 const PHONE_NUMBER_REGEX = /^[0-9()\-\s]*$/;
 

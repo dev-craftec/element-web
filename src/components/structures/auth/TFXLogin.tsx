@@ -22,6 +22,8 @@ import { filterBoolean } from "matrix-react-sdk/src/utils/arrays";
 import { Features } from "matrix-react-sdk/src/settings/Settings";
 import { startOidcLogin } from "matrix-react-sdk/src/utils/oidc/authorize";
 
+console.log("Loaded TFXLogin");
+
 interface IProps {
     serverConfig: ValidatedServerConfig;
     // If true, the component will consider itself busy.

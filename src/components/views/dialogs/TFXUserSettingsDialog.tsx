@@ -1,15 +1,9 @@
 import { Toast } from "@vector-im/compound-web";
-import React, { useState } from "react";
+import React from "react";
 
 import TabbedView, { Tab, useActiveTabWithDefault } from "matrix-react-sdk/src/components/structures/TabbedView";
 import { _t, _td } from "matrix-react-sdk/src/languageHandler";
-import GeneralUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/GeneralUserSettingsTab";
-import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
-import LabsUserSettingsTab, {
-    showLabsFlags,
-} from "matrix-react-sdk/src/components/views/settings/tabs/user/LabsUserSettingsTab";
 import AppearanceUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/AppearanceUserSettingsTab";
-import SecurityUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/SecurityUserSettingsTab";
 import NotificationUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/NotificationUserSettingsTab";
 import PreferencesUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/PreferencesUserSettingsTab";
 import VoiceUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/VoiceUserSettingsTab";
@@ -19,12 +13,13 @@ import { UIFeature } from "matrix-react-sdk/src/settings/UIFeature";
 import BaseDialog from "matrix-react-sdk/src/components/views/dialogs/BaseDialog";
 import SidebarUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/SidebarUserSettingsTab";
 import KeyboardUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/KeyboardUserSettingsTab";
-import SessionManagerTab from "matrix-react-sdk/src/components/views/settings/tabs/user/SessionManagerTab";
 import { UserTab } from "matrix-react-sdk/src/components/views/dialogs/UserTab";
 import { NonEmptyArray } from "matrix-react-sdk/src/@types/common";
 import { SDKContext, SdkContextClass } from "matrix-react-sdk/src/contexts/SDKContext";
 import { useSettingValue } from "matrix-react-sdk/src/hooks/useSettings";
 import { ToastContext, useActiveToast } from "matrix-react-sdk/src/contexts/ToastContext";
+
+console.log("Loaded TFXUserSettingsDialog");
 
 interface IProps {
     initialTabId?: UserTab;
@@ -38,10 +33,6 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
         strong: (sub: string) => <strong>{sub}</strong>,
     };
     switch (tabId) {
-        // case UserTab.General:
-        // return _t("settings|general|dialog_title", undefined, subs);
-        // case UserTab.SessionManager:
-        // return _t("settings|sessions|dialog_title", undefined, subs);
         case UserTab.Appearance:
             return _t("settings|appearance|dialog_title", undefined, subs);
         case UserTab.Notifications:
@@ -54,10 +45,6 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
             return _t("settings|sidebar|dialog_title", undefined, subs);
         case UserTab.Voice:
             return _t("settings|voip|dialog_title", undefined, subs);
-        // case UserTab.Security:
-        // return _t("settings|security|dialog_title", undefined, subs);
-        // case UserTab.Labs:
-        // return _t("settings|labs|dialog_title", undefined, subs);
         case UserTab.Mjolnir:
             return _t("settings|labs_mjolnir|dialog_title", undefined, subs);
         case UserTab.Help:
@@ -68,30 +55,10 @@ function titleForTabID(tabId: UserTab): React.ReactNode {
 export default function UserSettingsDialog(props: IProps): JSX.Element {
     const voipEnabled = useSettingValue<boolean>(UIFeature.Voip);
     const mjolnirEnabled = useSettingValue<boolean>("feature_mjolnir");
-    // store this prop in state as changing tabs back and forth should clear it
-    const [showMsc4108QrCode, setShowMsc4108QrCode] = useState(props.showMsc4108QrCode);
 
     const getTabs = (): NonEmptyArray<Tab<UserTab>> => {
         const tabs: Tab<UserTab>[] = [];
 
-        // tabs.push(
-        //     new Tab(
-        //         UserTab.General,
-        //         _td("common|general"),
-        //         "mx_UserSettingsDialog_settingsIcon",
-        //         <GeneralUserSettingsTab closeSettingsFn={props.onFinished} />,
-        //         "UserSettingsGeneral",
-        //     ),
-        // );
-        // tabs.push(
-        //     new Tab(
-        //         UserTab.SessionManager,
-        //         _td("settings|sessions|title"),
-        //         "mx_UserSettingsDialog_sessionsIcon",
-        //         <SessionManagerTab showMsc4108QrCode={showMsc4108QrCode} />,
-        //         undefined,
-        //     ),
-        // );
         tabs.push(
             new Tab(
                 UserTab.Appearance,
@@ -150,27 +117,6 @@ export default function UserSettingsDialog(props: IProps): JSX.Element {
             );
         }
 
-        // tabs.push(
-        //     new Tab(
-        //         UserTab.Security,
-        //         _td("room_settings|security|title"),
-        //         "mx_UserSettingsDialog_securityIcon",
-        //         <SecurityUserSettingsTab closeSettingsFn={props.onFinished} />,
-        //         "UserSettingsSecurityPrivacy",
-        //     ),
-        // );
-
-        // if (showLabsFlags() || SettingsStore.getFeatureSettingNames().some((k) => SettingsStore.getBetaInfo(k))) {
-        //     tabs.push(
-        //         new Tab(
-        //             UserTab.Labs,
-        //             _td("common|labs"),
-        //             "mx_UserSettingsDialog_labsIcon",
-        //             <LabsUserSettingsTab />,
-        //             "UserSettingsLabs",
-        //         ),
-        //     );
-        // }
         if (mjolnirEnabled) {
             tabs.push(
                 new Tab(

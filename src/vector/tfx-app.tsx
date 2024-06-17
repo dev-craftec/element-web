@@ -41,6 +41,8 @@ import VectorBasePlatform from "./platform/VectorBasePlatform";
 import { getInitialScreenAfterLogin, getScreenFromLocation, init as initRouting, onNewScreen } from "./routing";
 import { UserFriendlyError } from "../languageHandler";
 
+console.log("Loaded tfx-app");
+
 // add React and ReactPerf to the global namespace, to make them easier to access via the console
 // this incidentally means we can forget our React imports in JSX files without penalty.
 window.React = React;
