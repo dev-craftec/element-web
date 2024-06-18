@@ -101,7 +101,7 @@ export async function loadApp(fragParams: {}, matrixChatRef: React.Ref<MatrixCha
             console.log("[IFrame] Received event", event);
             if (typeof event.data === "string") {
                 parent.postMessage("I've got the API key", "*");
-                window.removeEventListener("message", handleMessage);
+                // window.removeEventListener("message", handleMessage);
                 const data = JSON.parse(event.data) as IMatrixClientCreds;
                 Lifecycle.setLoggedIn(data);
                 // window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
