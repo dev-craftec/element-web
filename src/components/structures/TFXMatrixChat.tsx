@@ -139,7 +139,7 @@ console.log("Loaded TFXMatrixChat");
 // legacy export
 export { default as Views } from "matrix-react-sdk/src/Views";
 
-const AUTH_SCREENS = ["register", "login", "forgot_password", "start_sso", "start_cas", "welcome"];
+const AUTH_SCREENS = ["register", "login", "forgot_password", "start_sso", "start_cas"];
 
 // Actions that are redirected through the onboarding process prior to being
 // re-dispatched. NOTE: some actions are non-trivial and would require
