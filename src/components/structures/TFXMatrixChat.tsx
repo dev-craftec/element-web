@@ -494,69 +494,86 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
                     ok: true,
                     error: false,
                 }),
-                { targetOrigin: event.origin };
+                { targetOrigin: event.origin },
             );
         }
 
-        let credentials: IMatrixClientCreds & { forceLogout?: boolean } | null = null;
+        let credentials: (IMatrixClientCreds & { forceLogout?: boolean }) | null = null;
         try {
             credentials = JSON.parse(event.data);
         } catch (e) {
-            event.source!.postMessage(JSON.stringify({
-                action: 'unknown',
-                ok: false,
-                error: 'Invalid credentials format'
-            }), { targetOrigin: event.origin })
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "unknown",
+                    ok: false,
+                    error: "Invalid credentials format",
+                }),
+                { targetOrigin: event.origin },
+            );
             return;
         }
 
-        if (credentials && credentials.forceLogout &&
+        if (
+            credentials &&
+            credentials.forceLogout &&
             credentials.homeserverUrl &&
             credentials.userId &&
             credentials.deviceId &&
-            credentials.accessToken) {
+            credentials.accessToken
+        ) {
             const client = MatrixClientPeg.get();
-            const sameUser = (
+            const sameUser =
                 client &&
-                credentials.accessToken === client.getAccessToken()
-                && credentials.homeserverUrl === client.getHomeserverUrl()
-                && credentials.userId === client.getUserId()
-                && (!credentials.deviceId || credentials.deviceId === client.getDeviceId())
-            );
+                credentials.accessToken === client.getAccessToken() &&
+                credentials.homeserverUrl === client.getHomeserverUrl() &&
+                credentials.userId === client.getUserId() &&
+                (!credentials.deviceId || credentials.deviceId === client.getDeviceId());
 
             if ("forceLogout" in credentials && credentials.forceLogout) {
                 if (sameUser) {
                     Lifecycle.logout();
                     console.log("[IFrame] User logged-out");
-                    parent.postMessage(JSON.stringify({
-                        action: 'logout',
-                        ok: true,
-                        error: false,
-                    }), {targetOrigin: event.origin});
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "logout",
+                            ok: true,
+                            error: false,
+                        }),
+                        { targetOrigin: event.origin },
+                    );
                 } else {
                     Lifecycle.logout();
-                    parent.postMessage(JSON.stringify({
-                        action: 'logout',
-                        ok: false,
-                        error: 'Not same user or invalid credentials',
-                    }), {targetOrigin: event.origin});
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "logout",
+                            ok: false,
+                            error: "Not same user or invalid credentials",
+                        }),
+                        { targetOrigin: event.origin },
+                    );
                 }
             } else {
                 if (sameUser) {
-                    parent.postMessage(JSON.stringify({
-                        action: 'login',
-                        ok: false,
-                        error: 'Already logged-in'
-                    }), { targetOrigin: event.origin });
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "login",
+                            ok: false,
+                            error: "Already logged-in",
+                        }),
+                        { targetOrigin: event.origin },
+                    );
                 } else {
                     delete credentials.forceLogout;
                     Lifecycle.setLoggedIn(credentials);
                     console.log("[IFrame] User logged-in");
-                    parent.postMessage(JSON.stringify({
-                        action: 'login',
-                        ok: true,
-                        error: false
-                    }), {targetOrigin: event.origin});
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "login",
+                            ok: true,
+                            error: false,
+                        }),
+                        { targetOrigin: event.origin },
+                    );
                 }
             }
         }
