@@ -133,7 +133,6 @@ import { checkSessionLockFree, getSessionLock } from "matrix-react-sdk/src/utils
 import { SessionLockStolenView } from "matrix-react-sdk/src/components/structures/auth/SessionLockStolenView";
 import { ConfirmSessionLockTheftView } from "matrix-react-sdk/src/components/structures/auth/ConfirmSessionLockTheftView";
 import { LoginSplashView } from "matrix-react-sdk/src/components/structures/auth/LoginSplashView";
-import { access } from "fs";
 
 console.log("Loaded TFXMatrixChat");
 
