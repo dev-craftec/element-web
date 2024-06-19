@@ -1,6 +1,5 @@
 import React, { SyntheticEvent } from "react";
 import classNames from "classnames";
-
 import { _t } from "matrix-react-sdk/src/languageHandler";
 import SdkConfig from "matrix-react-sdk/src/SdkConfig";
 import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";

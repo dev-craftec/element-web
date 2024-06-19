@@ -1,6 +1,5 @@
 import { Toast } from "@vector-im/compound-web";
 import React from "react";
-
 import TabbedView, { Tab, useActiveTabWithDefault } from "matrix-react-sdk/src/components/structures/TabbedView";
 import { _t, _td } from "matrix-react-sdk/src/languageHandler";
 import AppearanceUserSettingsTab from "matrix-react-sdk/src/components/views/settings/tabs/user/AppearanceUserSettingsTab";

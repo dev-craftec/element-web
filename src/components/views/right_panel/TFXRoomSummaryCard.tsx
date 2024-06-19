@@ -24,7 +24,6 @@ import { Icon as LockIcon } from "@vector-im/compound-design-tokens/icons/lock-s
 import { Icon as PublicIcon } from "@vector-im/compound-design-tokens/icons/public.svg";
 import { Icon as ChevronDownIcon } from "@vector-im/compound-design-tokens/icons/chevron-down.svg";
 import { EventType, JoinRule, Room } from "matrix-js-sdk/src/matrix";
-
 import MatrixClientContext from "matrix-react-sdk/src/contexts/MatrixClientContext";
 import { useIsEncrypted } from "matrix-react-sdk/src/hooks/useIsEncrypted";
 import BaseCard, { Group } from "matrix-react-sdk/src/components/views/right_panel/BaseCard";

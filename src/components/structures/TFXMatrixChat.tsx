@@ -20,8 +20,6 @@ import { IKeyBackupInfo } from "matrix-js-sdk/src/crypto/keybackup";
 // what-input helps improve keyboard accessibility
 import "what-input";
 
-import type NewRecoveryMethodDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/NewRecoveryMethodDialog";
-import type RecoveryMethodRemovedDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/RecoveryMethodRemovedDialog";
 import PosthogTrackers from "matrix-react-sdk/src/PosthogTrackers";
 import { DecryptionFailureTracker } from "matrix-react-sdk/src/DecryptionFailureTracker";
 import { IMatrixClientCreds, MatrixClientPeg } from "matrix-react-sdk/src/MatrixClientPeg";
@@ -50,7 +48,6 @@ import { storeRoomAliasInCache } from "matrix-react-sdk/src/RoomAliasCache";
 import ToastStore from "matrix-react-sdk/src/stores/ToastStore";
 import * as StorageManager from "matrix-react-sdk/src/utils/StorageManager";
 import { UseCase } from "matrix-react-sdk/src/settings/enums/UseCase";
-import type LoggedInViewType from "matrix-react-sdk/src/components/structures/LoggedInView";
 import LoggedInView from "matrix-react-sdk/src/components/structures/LoggedInView";
 import { Action } from "matrix-react-sdk/src/dispatcher/actions";
 import {
@@ -133,6 +130,10 @@ import { checkSessionLockFree, getSessionLock } from "matrix-react-sdk/src/utils
 import { SessionLockStolenView } from "matrix-react-sdk/src/components/structures/auth/SessionLockStolenView";
 import { ConfirmSessionLockTheftView } from "matrix-react-sdk/src/components/structures/auth/ConfirmSessionLockTheftView";
 import { LoginSplashView } from "matrix-react-sdk/src/components/structures/auth/LoginSplashView";
+
+import type LoggedInViewType from "matrix-react-sdk/src/components/structures/LoggedInView";
+import type RecoveryMethodRemovedDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/RecoveryMethodRemovedDialog";
+import type NewRecoveryMethodDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/NewRecoveryMethodDialog";
 
 console.log("Loaded TFXMatrixChat");
 

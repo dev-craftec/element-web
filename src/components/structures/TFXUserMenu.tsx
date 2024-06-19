@@ -1,6 +1,5 @@
 import React, { createRef, ReactNode } from "react";
 import { discoverAndValidateOIDCIssuerWellKnown, Room } from "matrix-js-sdk/src/matrix";
-
 import { MatrixClientPeg } from "matrix-react-sdk/src/MatrixClientPeg";
 import defaultDispatcher from "matrix-react-sdk/src/dispatcher/dispatcher";
 import { ActionPayload } from "matrix-react-sdk/src/dispatcher/payloads";

@@ -1,6 +1,5 @@
 import React from "react";
 import { Room, MatrixClient } from "matrix-js-sdk/src/matrix";
-
 import { _t } from "matrix-react-sdk/src/languageHandler";
 import BaseDialog from "matrix-react-sdk/src/components/views/dialogs/BaseDialog";
 import defaultDispatcher from "matrix-react-sdk/src/dispatcher/dispatcher";
@@ -8,7 +7,7 @@ import { useDispatcher } from "matrix-react-sdk/src/hooks/useDispatcher";
 import TabbedView from "matrix-react-sdk/src/components/structures/TabbedView";
 import { Action } from "matrix-react-sdk/src/dispatcher/actions";
 
-console.log('Loaded TFXSpaceSettingsDialog');
+console.log("Loaded TFXSpaceSettingsDialog");
 
 export enum SpaceSettingsTab {
     General = "SPACE_GENERAL_TAB",

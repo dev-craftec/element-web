@@ -1,5 +1,4 @@
 import * as React from "react";
-
 import AutoHideScrollbar from "matrix-react-sdk/src/components/structures/AutoHideScrollbar";
 import { getHomePageUrl } from "matrix-react-sdk/src/utils/pages";
 import { _tDom } from "matrix-react-sdk/src/languageHandler";

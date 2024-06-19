@@ -1,6 +1,5 @@
 import React from "react";
 import { CryptoEvent, MatrixClient } from "matrix-js-sdk/src/matrix";
-
 import { messageForSyncError } from "matrix-react-sdk/src/utils/ErrorUtils";
 import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
 import ProgressBar from "matrix-react-sdk/src/components/views/elements/ProgressBar";

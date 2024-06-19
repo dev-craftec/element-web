@@ -2,7 +2,6 @@ import React, { ReactNode } from "react";
 import classNames from "classnames";
 import { logger } from "matrix-js-sdk/src/logger";
 import { SSOFlow, SSOAction } from "matrix-js-sdk/src/matrix";
-
 import { _t, UserFriendlyError } from "matrix-react-sdk/src/languageHandler";
 import Login, { ClientLoginFlow, OidcNativeFlow } from "matrix-react-sdk/src/Login";
 import { messageForConnectionError, messageForLoginError } from "matrix-react-sdk/src/utils/ErrorUtils";
