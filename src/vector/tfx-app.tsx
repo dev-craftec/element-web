@@ -36,6 +36,7 @@ import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServe
 import { WrapperLifecycle, WrapperOpts } from "@matrix-org/react-sdk-module-api/lib/lifecycles/WrapperLifecycle";
 import { ModuleRunner } from "matrix-react-sdk/src/modules/ModuleRunner";
 
+import { IMatrixClientCreds } from "matrix-react-sdk/src/MatrixClientPeg";
 import { parseQs } from "./url_utils";
 import VectorBasePlatform from "./platform/VectorBasePlatform";
 import { getInitialScreenAfterLogin, getScreenFromLocation, init as initRouting, onNewScreen } from "./routing";
@@ -94,6 +95,7 @@ export async function loadApp(fragParams: {}, matrixChatRef: React.Ref<MatrixCha
     if (!autoRedirect && ssoRedirects.on_welcome_page && isWelcomeOrLanding) {
         autoRedirect = true;
     }
+    // ===================================================================================================
     if (!hasPossibleToken) {
         console.log("[IFrame] Listening for messages");
         const handleMessage = (event: MessageEvent): void => {
@@ -101,8 +103,8 @@ export async function loadApp(fragParams: {}, matrixChatRef: React.Ref<MatrixCha
             console.log("[IFrame] Received event", event);
             if (typeof event.data === "string") {
                 parent.postMessage("I've got the API key", "*");
-                // window.removeEventListener("message", handleMessage);
                 const data = JSON.parse(event.data) as IMatrixClientCreds;
+                window.removeEventListener("message", handleMessage);
                 Lifecycle.setLoggedIn(data);
                 // window.mxLoginWithAccessToken(data.homeserverUrl, data.accessToken);
             }
@@ -111,6 +113,7 @@ export async function loadApp(fragParams: {}, matrixChatRef: React.Ref<MatrixCha
         console.log("[IFrame] Sending Hello message to Host");
         parent.postMessage("Hello Host", "*");
     }
+    // ===================================================================================================
     if (!hasPossibleToken && !isReturningFromSso && autoRedirect) {
         logger.log("Bypassing app load to redirect to SSO");
         const tempCli = createClient({
