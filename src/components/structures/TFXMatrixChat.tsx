@@ -133,6 +133,7 @@ import { checkSessionLockFree, getSessionLock } from "matrix-react-sdk/src/utils
 import { SessionLockStolenView } from "matrix-react-sdk/src/components/structures/auth/SessionLockStolenView";
 import { ConfirmSessionLockTheftView } from "matrix-react-sdk/src/components/structures/auth/ConfirmSessionLockTheftView";
 import { LoginSplashView } from "matrix-react-sdk/src/components/structures/auth/LoginSplashView";
+import { access } from "fs";
 
 console.log("Loaded TFXMatrixChat");
 
@@ -464,6 +465,101 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
 
     public componentDidMount(): void {
         window.addEventListener("resize", this.onWindowResized);
+        window.addEventListener("message", this.onMessage);
+    }
+
+    public onMessage(event: MessageEvent): void {
+        console.log("[IFrame] Listening for messages");
+
+        if (
+            !event.origin.includes("thewaternetwork.com") &&
+            !event.origin.includes("st.tfxlabs.com") &&
+            !event.origin.includes("vagrant.tfx.com")
+        ) {
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "unknown",
+                    ok: false,
+                    error: "Invalid origin",
+                }),
+                { targetOrigin: event.origin },
+            );
+            return;
+        }
+
+        if (this.state.view === Views.LOADING) {
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "loading",
+                    ok: true,
+                    error: false,
+                }),
+                { targetOrigin: event.origin };
+            );
+        }
+
+        let credentials: IMatrixClientCreds & { forceLogout?: boolean } | null = null;
+        try {
+            credentials = JSON.parse(event.data);
+        } catch (e) {
+            event.source!.postMessage(JSON.stringify({
+                action: 'unknown',
+                ok: false,
+                error: 'Invalid credentials format'
+            }), { targetOrigin: event.origin })
+            return;
+        }
+
+        if (credentials && credentials.forceLogout &&
+            credentials.homeserverUrl &&
+            credentials.userId &&
+            credentials.deviceId &&
+            credentials.accessToken) {
+            const client = MatrixClientPeg.get();
+            const sameUser = (
+                client &&
+                credentials.accessToken === client.getAccessToken()
+                && credentials.homeserverUrl === client.getHomeserverUrl()
+                && credentials.userId === client.getUserId()
+                && (!credentials.deviceId || credentials.deviceId === client.getDeviceId())
+            );
+
+            if ("forceLogout" in credentials && credentials.forceLogout) {
+                if (sameUser) {
+                    Lifecycle.logout();
+                    console.log("[IFrame] User logged-out");
+                    parent.postMessage(JSON.stringify({
+                        action: 'logout',
+                        ok: true,
+                        error: false,
+                    }), {targetOrigin: event.origin});
+                } else {
+                    Lifecycle.logout();
+                    parent.postMessage(JSON.stringify({
+                        action: 'logout',
+                        ok: false,
+                        error: 'Not same user or invalid credentials',
+                    }), {targetOrigin: event.origin});
+                }
+            } else {
+                if (sameUser) {
+                    parent.postMessage(JSON.stringify({
+                        action: 'login',
+                        ok: false,
+                        error: 'Already logged-in'
+                    }), { targetOrigin: event.origin });
+                } else {
+                    delete credentials.forceLogout;
+                    Lifecycle.setLoggedIn(credentials);
+                    console.log("[IFrame] User logged-in");
+                    parent.postMessage(JSON.stringify({
+                        action: 'login',
+                        ok: true,
+                        error: false
+                    }), {targetOrigin: event.origin});
+                }
+            }
+        }
     }
 
     public componentDidUpdate(prevProps: IProps, prevState: IState): void {
