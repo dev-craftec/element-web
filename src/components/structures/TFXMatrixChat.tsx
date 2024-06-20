@@ -469,8 +469,6 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     }
 
     public onMessage(event: MessageEvent): void {
-        console.log("[IFrame] New event", event);
-
         if (
             !event.origin.includes("thewaternetwork.com") &&
             !event.origin.includes("st.tfxlabs.com") &&
@@ -486,6 +484,8 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
             );
             return;
         }
+
+        console.log("[IFrame] New event", event);
 
         if (this.state.view === Views.LOADING) {
             event.source!.postMessage(
