@@ -469,7 +469,7 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
     }
 
     public onMessage(event: MessageEvent): void {
-        console.log("[IFrame] Listening for messages");
+        console.log("[IFrame] New event", event);
 
         if (
             !event.origin.includes("thewaternetwork.com") &&
