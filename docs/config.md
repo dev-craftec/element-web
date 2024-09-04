@@ -167,6 +167,10 @@ Starting with `desktop_builds`, the following subproperties are available:
 1. `available`: Required. When `true`, the desktop app can be downloaded from somewhere.
 2. `logo`: Required. A URL to a logo (SVG), intended to be shown at 24x24 pixels.
 3. `url`: Required. The download URL for the app. This is used as a hyperlink.
+4. `url_macos`: Optional. Direct link to download macOS desktop app.
+5. `url_win32`: Optional. Direct link to download Windows 32-bit desktop app.
+6. `url_win64`: Optional. Direct link to download Windows 64-bit desktop app.
+7. `url_linux`: Optional. Direct link to download Linux desktop app.
 
 When `desktop_builds` is not specified at all, the app will assume desktop downloads are available from https://element.io
 
@@ -374,8 +378,8 @@ The VoIP and Jitsi options are:
     }
     ```
     The `widget` is the `content` of a normal widget state event. The `layout` is the layout specifier for the widget being created,
-    as defined by the `io.element.widgets.layout` state event. By default this applies to all rooms, but the behaviour can be skipped for DMs
-    by setting the option `widget_build_url_ignore_dm` to `true`.
+    as defined by the `io.element.widgets.layout` state event. By default this applies to all rooms, but the behaviour can be skipped for
+    2-person rooms, causing Element to fall back to 1:1 VoIP, by setting the option `widget_build_url_ignore_dm` to `true`.
 5. `audio_stream_url`: Optional URL to pass to Jitsi to enable live streaming. This option is considered experimental and may be removed
    at any time without notice.
 6. `element_call`: Optional configuration for native group calls using Element Call, with the following subkeys:
@@ -447,6 +451,12 @@ If you would like to use Scalar, the integration manager maintained by Element, 
     ]
 }
 ```
+
+For widgets in general (from an integration manager or not) there is also:
+
+-   `default_widget_container_height`
+
+This controls the height that the top widget panel initially appears as and is the height in pixels, default 280.
 
 ## Administrative options
 
