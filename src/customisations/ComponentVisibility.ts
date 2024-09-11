@@ -6,8 +6,6 @@
 
 import { UIComponent } from "matrix-react-sdk/src/settings/UIFeature";
 
-console.log("Loaded TFXComponentVisibility");
-
 /**
  * Determines whether or not the active MatrixClient user should be able to use
  * the given UI component. If shown, the user might still not be able to use the
