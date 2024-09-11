@@ -1,29 +1,31 @@
-import * as React from "react";
+/*
+Copyright 2015, 2016 OpenMarket Ltd
+Copyright 2019 New Vector Ltd
+Copyright 2019 The Matrix.org Foundation C.I.C.
 
-console.log("Loaded TFXAuthPage");
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-export default class AuthPage extends React.PureComponent {
-    public render(): React.ReactElement {
-        const modalStyle: React.CSSProperties = {
-            position: "relative",
-            background: "initial",
-        };
+    http://www.apache.org/licenses/LICENSE-2.0
 
-        const modalContentStyle: React.CSSProperties = {
-            display: "flex",
-            zIndex: 1,
-            background: "rgba(255, 255, 255, 0.59)",
-            borderRadius: "8px",
-        };
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
+import React, { ReactNode } from "react";
+
+import AuthFooter from "./AuthFooter";
+
+export default class AuthPage extends React.PureComponent<{ children: ReactNode }> {
+    public render(): React.ReactNode {
         return (
             <div className="mx_AuthPage">
-                <div className="mx_AuthPage_modal" style={modalStyle}>
-                    <div className="mx_AuthPage_modalBlur" />
-                    <div className="mx_AuthPage_modalContent" style={modalContentStyle}>
-                        {this.props.children}
-                    </div>
-                </div>
+                <div className="mx_AuthPage_modal">{this.props.children}</div>
+                <AuthFooter />
             </div>
         );
     }

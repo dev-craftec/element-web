@@ -1,27 +1,45 @@
+/*
+Copyright 2015-2021 The Matrix.org Foundation C.I.C.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import React, { ReactNode } from "react";
 import classNames from "classnames";
 import { logger } from "matrix-js-sdk/src/logger";
 import { SSOFlow, SSOAction } from "matrix-js-sdk/src/matrix";
-import { _t, UserFriendlyError } from "matrix-react-sdk/src/languageHandler";
-import Login, { ClientLoginFlow, OidcNativeFlow } from "matrix-react-sdk/src/Login";
-import { messageForConnectionError, messageForLoginError } from "matrix-react-sdk/src/utils/ErrorUtils";
-import AutoDiscoveryUtils from "matrix-react-sdk/src/utils/AutoDiscoveryUtils";
-import AuthPage from "matrix-react-sdk/src/components/views/auth/AuthPage";
-import PlatformPeg from "matrix-react-sdk/src/PlatformPeg";
-import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
-import { IMatrixClientCreds } from "matrix-react-sdk/src/MatrixClientPeg";
-import PasswordLogin from "matrix-react-sdk/src/components/views/auth/PasswordLogin";
-import InlineSpinner from "matrix-react-sdk/src/components/views/elements/InlineSpinner";
-import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
-import SSOButtons from "matrix-react-sdk/src/components/views/elements/SSOButtons";
-import AuthBody from "matrix-react-sdk/src/components/views/auth/AuthBody";
-import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
-import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
-import { filterBoolean } from "matrix-react-sdk/src/utils/arrays";
-import { Features } from "matrix-react-sdk/src/settings/Settings";
-import { startOidcLogin } from "matrix-react-sdk/src/utils/oidc/authorize";
 
-console.log("Loaded TFXLogin");
+import { _t, UserFriendlyError } from "../../../languageHandler";
+import Login, { ClientLoginFlow, OidcNativeFlow } from "../../../Login";
+import { messageForConnectionError, messageForLoginError } from "../../../utils/ErrorUtils";
+import AutoDiscoveryUtils from "../../../utils/AutoDiscoveryUtils";
+import AuthPage from "../../views/auth/AuthPage";
+import PlatformPeg from "../../../PlatformPeg";
+import SettingsStore from "../../../settings/SettingsStore";
+import { UIFeature } from "../../../settings/UIFeature";
+import { IMatrixClientCreds } from "../../../MatrixClientPeg";
+import PasswordLogin from "../../views/auth/PasswordLogin";
+import InlineSpinner from "../../views/elements/InlineSpinner";
+import Spinner from "../../views/elements/Spinner";
+import SSOButtons from "../../views/elements/SSOButtons";
+import ServerPicker from "../../views/elements/ServerPicker";
+import AuthBody from "../../views/auth/AuthBody";
+import AuthHeader from "../../views/auth/AuthHeader";
+import AccessibleButton, { ButtonEvent } from "../../views/elements/AccessibleButton";
+import { ValidatedServerConfig } from "../../../utils/ValidatedServerConfig";
+import { filterBoolean } from "../../../utils/arrays";
+import { Features } from "../../../settings/Settings";
+import { startOidcLogin } from "../../../utils/oidc/authorize";
 
 interface IProps {
     serverConfig: ValidatedServerConfig;
@@ -467,6 +485,7 @@ export default class LoginComponent extends React.PureComponent<IProps, IState> 
                 fragmentAfterLogin={this.props.fragmentAfterLogin}
                 primary={!this.state.flows?.find((flow) => flow.type === "m.login.password")}
                 action={SSOAction.LOGIN}
+                disabled={this.isBusy()}
             />
         );
     };
@@ -509,10 +528,27 @@ export default class LoginComponent extends React.PureComponent<IProps, IState> 
                     )}
                 </div>
             );
+        } else if (SettingsStore.getValue(UIFeature.Registration)) {
+            footer = (
+                <span className="mx_AuthBody_changeFlow">
+                    {_t(
+                        "auth|create_account_prompt",
+                        {},
+                        {
+                            a: (sub) => (
+                                <AccessibleButton kind="link_inline" onClick={this.onTryRegisterClick}>
+                                    {sub}
+                                </AccessibleButton>
+                            ),
+                        },
+                    )}
+                </span>
+            );
         }
 
         return (
             <AuthPage>
+                <AuthHeader disableLanguageSelector={this.props.isSyncing || this.state.busyLoggingIn} />
                 <AuthBody>
                     <h1>
                         {_t("action|sign_in")}
@@ -520,6 +556,11 @@ export default class LoginComponent extends React.PureComponent<IProps, IState> 
                     </h1>
                     {errorTextSection}
                     {serverDeadSection}
+                    <ServerPicker
+                        serverConfig={this.props.serverConfig}
+                        onServerConfigChange={this.props.onServerConfigChange}
+                        disabled={this.isBusy()}
+                    />
                     {this.renderLoginComponentForFlows()}
                     {footer}
                 </AuthBody>

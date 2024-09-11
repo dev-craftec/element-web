@@ -1,18 +1,31 @@
+/*
+Copyright 2015, 2016, 2017, 2019 The Matrix.org Foundation C.I.C.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import React, { SyntheticEvent } from "react";
 import classNames from "classnames";
-import { _t } from "matrix-react-sdk/src/languageHandler";
-import SdkConfig from "matrix-react-sdk/src/SdkConfig";
-import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
-import withValidation, {
-    IFieldState,
-    IValidationResult,
-} from "matrix-react-sdk/src/components/views/elements/Validation";
-import Field from "matrix-react-sdk/src/components/views/elements/Field";
-import CountryDropdown from "matrix-react-sdk/src/components/views/auth/CountryDropdown";
-import EmailField from "matrix-react-sdk/src/components/views/auth/EmailField";
-import { PhoneNumberCountryDefinition } from "matrix-react-sdk/src/phonenumber";
 
-console.log("Loaded TFXPasswordLogin");
+import { _t } from "../../../languageHandler";
+import SdkConfig from "../../../SdkConfig";
+import { ValidatedServerConfig } from "../../../utils/ValidatedServerConfig";
+import AccessibleButton, { ButtonEvent } from "../elements/AccessibleButton";
+import withValidation, { IFieldState, IValidationResult } from "../elements/Validation";
+import Field from "../elements/Field";
+import CountryDropdown from "./CountryDropdown";
+import EmailField from "./EmailField";
+import { PhoneNumberCountryDefinition } from "../../../phonenumber";
 
 // For validating phone numbers without country codes
 const PHONE_NUMBER_REGEX = /^[0-9()\-\s]*$/;
@@ -77,6 +90,12 @@ export default class PasswordLogin extends React.PureComponent<IProps, IState> {
             password: "",
         };
     }
+
+    private onForgotPasswordClick = (ev: ButtonEvent): void => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        this.props.onForgotPasswordClick?.();
+    };
 
     private onSubmitForm = async (ev: SyntheticEvent): Promise<void> => {
         ev.preventDefault();
@@ -350,6 +369,21 @@ export default class PasswordLogin extends React.PureComponent<IProps, IState> {
     }
 
     public render(): React.ReactNode {
+        let forgotPasswordJsx: JSX.Element | undefined;
+
+        if (this.props.onForgotPasswordClick) {
+            forgotPasswordJsx = (
+                <AccessibleButton
+                    className="mx_Login_forgot"
+                    disabled={this.props.busy}
+                    kind="link"
+                    onClick={this.onForgotPasswordClick}
+                >
+                    {_t("auth|reset_password_button")}
+                </AccessibleButton>
+            );
+        }
+
         const pwFieldClass = classNames({
             error: this.props.loginIncorrect && !this.isLoginEmpty(), // only error password if error isn't top field
         });
@@ -403,6 +437,7 @@ export default class PasswordLogin extends React.PureComponent<IProps, IState> {
                         onValidate={this.onPasswordValidate}
                         ref={(field) => (this[LoginField.Password] = field)}
                     />
+                    {forgotPasswordJsx}
                     {!this.props.busy && (
                         <input
                             className="mx_Login_submit"

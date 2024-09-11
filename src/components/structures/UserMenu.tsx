@@ -1,43 +1,59 @@
+/*
+Copyright 2020, 2021 The Matrix.org Foundation C.I.C.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 import React, { createRef, ReactNode } from "react";
 import { discoverAndValidateOIDCIssuerWellKnown, Room } from "matrix-js-sdk/src/matrix";
-import { MatrixClientPeg } from "matrix-react-sdk/src/MatrixClientPeg";
-import defaultDispatcher from "matrix-react-sdk/src/dispatcher/dispatcher";
-import { ActionPayload } from "matrix-react-sdk/src/dispatcher/payloads";
-import { Action } from "matrix-react-sdk/src/dispatcher/actions";
-import { _t } from "matrix-react-sdk/src/languageHandler";
-import { ChevronFace, ContextMenuButton, MenuProps } from "matrix-react-sdk/src/components/structures/ContextMenu";
-import { UserTab } from "matrix-react-sdk/src/components/views/dialogs/UserTab";
-import { OpenToTabPayload } from "matrix-react-sdk/src/dispatcher/payloads/OpenToTabPayload";
-import FeedbackDialog from "matrix-react-sdk/src/components/views/dialogs/FeedbackDialog";
-import Modal from "matrix-react-sdk/src/Modal";
-import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
-import { findHighContrastTheme, getCustomTheme, isHighContrastTheme } from "matrix-react-sdk/src/theme";
-import { RovingAccessibleButton } from "matrix-react-sdk/src/accessibility/RovingTabIndex";
-import AccessibleButton, { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
-import SdkConfig from "matrix-react-sdk/src/SdkConfig";
-import { getHomePageUrl } from "matrix-react-sdk/src/utils/pages";
-import { OwnProfileStore } from "matrix-react-sdk/src/stores/OwnProfileStore";
-import { UPDATE_EVENT } from "matrix-react-sdk/src/stores/AsyncStore";
-import BaseAvatar from "matrix-react-sdk/src/components/views/avatars/BaseAvatar";
-import { SettingLevel } from "matrix-react-sdk/src/settings/SettingLevel";
+
+import { MatrixClientPeg } from "../../MatrixClientPeg";
+import defaultDispatcher from "../../dispatcher/dispatcher";
+import { ActionPayload } from "../../dispatcher/payloads";
+import { Action } from "../../dispatcher/actions";
+import { _t } from "../../languageHandler";
+import { ChevronFace, ContextMenuButton, MenuProps } from "./ContextMenu";
+import { UserTab } from "../views/dialogs/UserTab";
+import { OpenToTabPayload } from "../../dispatcher/payloads/OpenToTabPayload";
+import FeedbackDialog from "../views/dialogs/FeedbackDialog";
+import Modal from "../../Modal";
+import LogoutDialog, { shouldShowLogoutDialog } from "../views/dialogs/LogoutDialog";
+import SettingsStore from "../../settings/SettingsStore";
+import { findHighContrastTheme, getCustomTheme, isHighContrastTheme } from "../../theme";
+import { RovingAccessibleButton } from "../../accessibility/RovingTabIndex";
+import AccessibleButton, { ButtonEvent } from "../views/elements/AccessibleButton";
+import SdkConfig from "../../SdkConfig";
+import { getHomePageUrl } from "../../utils/pages";
+import { OwnProfileStore } from "../../stores/OwnProfileStore";
+import { UPDATE_EVENT } from "../../stores/AsyncStore";
+import BaseAvatar from "../views/avatars/BaseAvatar";
+import { SettingLevel } from "../../settings/SettingLevel";
 import IconizedContextMenu, {
     IconizedContextMenuOption,
     IconizedContextMenuOptionList,
-} from "matrix-react-sdk/src/components/views/context_menus/IconizedContextMenu";
-import { UIFeature } from "matrix-react-sdk/src/settings/UIFeature";
-import SpaceStore from "matrix-react-sdk/src/stores/spaces/SpaceStore";
-import { UPDATE_SELECTED_SPACE } from "matrix-react-sdk/src/stores/spaces";
-import UserIdentifierCustomisations from "matrix-react-sdk/src/customisations/UserIdentifier";
-import PosthogTrackers from "matrix-react-sdk/src/PosthogTrackers";
-import { ViewHomePagePayload } from "matrix-react-sdk/src/dispatcher/payloads/ViewHomePagePayload";
-import { Icon as LiveIcon } from "matrix-react-sdk/res/img/compound/live-8px.svg";
-import { VoiceBroadcastRecording, VoiceBroadcastRecordingsStoreEvent } from "matrix-react-sdk/src/voice-broadcast";
-import { SDKContext } from "matrix-react-sdk/src/contexts/SDKContext";
-import { shouldShowFeedback } from "matrix-react-sdk/src/utils/Feedback";
-import { shouldShowQr } from "matrix-react-sdk/src/components/views/settings/devices/LoginWithQRSection";
-import { Features } from "matrix-react-sdk/src/settings/Settings";
-
-console.log("Loaded TFXUserMenu");
+} from "../views/context_menus/IconizedContextMenu";
+import { UIFeature } from "../../settings/UIFeature";
+import SpaceStore from "../../stores/spaces/SpaceStore";
+import { UPDATE_SELECTED_SPACE } from "../../stores/spaces";
+import UserIdentifierCustomisations from "../../customisations/UserIdentifier";
+import PosthogTrackers from "../../PosthogTrackers";
+import { ViewHomePagePayload } from "../../dispatcher/payloads/ViewHomePagePayload";
+import { Icon as LiveIcon } from "../../../res/img/compound/live-8px.svg";
+import { VoiceBroadcastRecording, VoiceBroadcastRecordingsStoreEvent } from "../../voice-broadcast";
+import { SDKContext } from "../../contexts/SDKContext";
+import { shouldShowFeedback } from "../../utils/Feedback";
+import { shouldShowQr } from "../views/settings/devices/LoginWithQRSection";
+import { Features } from "../../settings/Settings";
 
 interface IProps {
     isPanelCollapsed: boolean;
@@ -74,7 +90,7 @@ const below = (rect: PartialDOMRect): MenuProps => {
 
 export default class UserMenu extends React.Component<IProps, IState> {
     public static contextType = SDKContext;
-    public context!: React.ContextType<typeof SDKContext>;
+    public declare context: React.ContextType<typeof SDKContext>;
 
     private dispatcherRef?: string;
     private themeWatcherRef?: string;
@@ -84,7 +100,6 @@ export default class UserMenu extends React.Component<IProps, IState> {
     public constructor(props: IProps, context: React.ContextType<typeof SDKContext>) {
         super(props, context);
 
-        this.context = context;
         this.state = {
             contextMenuPosition: null,
             isDarkTheme: this.isUserOnDarkTheme(),
@@ -268,6 +283,19 @@ export default class UserMenu extends React.Component<IProps, IState> {
         this.setState({ contextMenuPosition: null }); // also close the menu
     };
 
+    private onSignOutClick = async (ev: ButtonEvent): Promise<void> => {
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        if (await shouldShowLogoutDialog(MatrixClientPeg.safeGet())) {
+            Modal.createDialog(LogoutDialog);
+        } else {
+            defaultDispatcher.dispatch({ action: "logout" });
+        }
+
+        this.setState({ contextMenuPosition: null }); // also close the menu
+    };
+
     private onSignInClick = (): void => {
         defaultDispatcher.dispatch({ action: "start_login" });
         this.setState({ contextMenuPosition: null }); // also close the menu
@@ -376,9 +404,21 @@ export default class UserMenu extends React.Component<IProps, IState> {
                     onClick={(e) => this.onSettingsOpen(e, UserTab.Notifications)}
                 />
                 <IconizedContextMenuOption
+                    iconClassName="mx_UserMenu_iconLock"
+                    label={_t("room_settings|security|title")}
+                    onClick={(e) => this.onSettingsOpen(e, UserTab.Security)}
+                />
+                <IconizedContextMenuOption
                     iconClassName="mx_UserMenu_iconSettings"
                     label={_t("user_menu|settings")}
                     onClick={(e) => this.onSettingsOpen(e)}
+                />
+                {feedbackButton}
+                <IconizedContextMenuOption
+                    className="mx_IconizedContextMenu_option_red"
+                    iconClassName="mx_UserMenu_iconSignOut"
+                    label={_t("action|sign_out")}
+                    onClick={this.onSignOutClick}
                 />
             </IconizedContextMenuOptionList>
         );
@@ -428,7 +468,7 @@ export default class UserMenu extends React.Component<IProps, IState> {
                         }
                     >
                         <img
-                            src={require("matrix-react-sdk/res/img/element-icons/roomlist/dark-light-mode.svg").default}
+                            src={require("../../../res/img/element-icons/roomlist/dark-light-mode.svg").default}
                             role="presentation"
                             alt=""
                             width={16}
