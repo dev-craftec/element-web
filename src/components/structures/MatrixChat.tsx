@@ -36,117 +36,117 @@ import { KeyBackupInfo } from "matrix-js-sdk/src/crypto-api";
 // what-input helps improve keyboard accessibility
 import "what-input";
 
-import type NewRecoveryMethodDialog from "../../async-components/views/dialogs/security/NewRecoveryMethodDialog";
-import type RecoveryMethodRemovedDialog from "../../async-components/views/dialogs/security/RecoveryMethodRemovedDialog";
-import PosthogTrackers from "../../PosthogTrackers";
-import { DecryptionFailureTracker } from "../../DecryptionFailureTracker";
-import { IMatrixClientCreds, MatrixClientPeg } from "../../MatrixClientPeg";
-import PlatformPeg from "../../PlatformPeg";
-import SdkConfig, { ConfigOptions } from "../../SdkConfig";
-import dis from "../../dispatcher/dispatcher";
-import Notifier from "../../Notifier";
-import Modal from "../../Modal";
-import { showRoomInviteDialog, showStartChatInviteDialog } from "../../RoomInvite";
-import * as Rooms from "../../Rooms";
-import * as Lifecycle from "../../Lifecycle";
+import type NewRecoveryMethodDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/NewRecoveryMethodDialog";
+import type RecoveryMethodRemovedDialog from "matrix-react-sdk/src/async-components/views/dialogs/security/RecoveryMethodRemovedDialog";
+import PosthogTrackers from "matrix-react-sdk/src/PosthogTrackers";
+import { DecryptionFailureTracker } from "matrix-react-sdk/src/DecryptionFailureTracker";
+import { IMatrixClientCreds, MatrixClientPeg } from "matrix-react-sdk/src/MatrixClientPeg";
+import PlatformPeg from "matrix-react-sdk/src/PlatformPeg";
+import SdkConfig, { ConfigOptions } from "matrix-react-sdk/src/SdkConfig";
+import dis from "matrix-react-sdk/src/dispatcher/dispatcher";
+import Notifier from "matrix-react-sdk/src/Notifier";
+import Modal from "matrix-react-sdk/src/Modal";
+import { showRoomInviteDialog, showStartChatInviteDialog } from "matrix-react-sdk/src/RoomInvite";
+import * as Rooms from "matrix-react-sdk/src/Rooms";
+import * as Lifecycle from "matrix-react-sdk/src/Lifecycle";
 // LifecycleStore is not used but does listen to and dispatch actions
-import "../../stores/LifecycleStore";
-import "../../stores/AutoRageshakeStore";
-import PageType from "../../PageTypes";
-import createRoom, { IOpts } from "../../createRoom";
-import { _t, _td } from "../../languageHandler";
-import SettingsStore from "../../settings/SettingsStore";
-import ThemeController from "../../settings/controllers/ThemeController";
-import { startAnyRegistrationFlow } from "../../Registration";
-import ResizeNotifier from "../../utils/ResizeNotifier";
-import AutoDiscoveryUtils from "../../utils/AutoDiscoveryUtils";
-import ThemeWatcher from "../../settings/watchers/ThemeWatcher";
-import { FontWatcher } from "../../settings/watchers/FontWatcher";
-import { storeRoomAliasInCache } from "../../RoomAliasCache";
-import ToastStore from "../../stores/ToastStore";
-import * as StorageManager from "../../utils/StorageManager";
-import { UseCase } from "../../settings/enums/UseCase";
-import type LoggedInViewType from "./LoggedInView";
-import LoggedInView from "./LoggedInView";
-import { Action } from "../../dispatcher/actions";
-import { hideToast as hideAnalyticsToast, showToast as showAnalyticsToast } from "../../toasts/AnalyticsToast";
-import { showToast as showNotificationsToast } from "../../toasts/DesktopNotificationsToast";
-import { OpenToTabPayload } from "../../dispatcher/payloads/OpenToTabPayload";
-import ErrorDialog from "../views/dialogs/ErrorDialog";
+import "matrix-react-sdk/src/stores/LifecycleStore";
+import "matrix-react-sdk/src/stores/AutoRageshakeStore";
+import PageType from "matrix-react-sdk/src/PageTypes";
+import createRoom, { IOpts } from "matrix-react-sdk/src/createRoom";
+import { _t, _td } from "matrix-react-sdk/src/languageHandler";
+import SettingsStore from "matrix-react-sdk/src/settings/SettingsStore";
+import ThemeController from "matrix-react-sdk/src/settings/controllers/ThemeController";
+import { startAnyRegistrationFlow } from "matrix-react-sdk/src/Registration";
+import ResizeNotifier from "matrix-react-sdk/src/utils/ResizeNotifier";
+import AutoDiscoveryUtils from "matrix-react-sdk/src/utils/AutoDiscoveryUtils";
+import ThemeWatcher from "matrix-react-sdk/src/settings/watchers/ThemeWatcher";
+import { FontWatcher } from "matrix-react-sdk/src/settings/watchers/FontWatcher";
+import { storeRoomAliasInCache } from "matrix-react-sdk/src/RoomAliasCache";
+import ToastStore from "matrix-react-sdk/src/stores/ToastStore";
+import * as StorageManager from "matrix-react-sdk/src/utils/StorageManager";
+import { UseCase } from "matrix-react-sdk/src/settings/enums/UseCase";
+import type LoggedInViewType from "matrix-react-sdk/src/components/structures/LoggedInView";
+import LoggedInView from "matrix-react-sdk/src/components/structures/LoggedInView";
+import { Action } from "matrix-react-sdk/src/dispatcher/actions";
+import { hideToast as hideAnalyticsToast, showToast as showAnalyticsToast } from "matrix-react-sdk/src/toasts/AnalyticsToast";
+import { showToast as showNotificationsToast } from "matrix-react-sdk/src/toasts/DesktopNotificationsToast";
+import { OpenToTabPayload } from "matrix-react-sdk/src/dispatcher/payloads/OpenToTabPayload";
+import ErrorDialog from "matrix-react-sdk/src/components/views/dialogs/ErrorDialog";
 import {
     RoomNotificationStateStore,
     UPDATE_STATUS_INDICATOR,
-} from "../../stores/notifications/RoomNotificationStateStore";
-import { SettingLevel } from "../../settings/SettingLevel";
-import ThreepidInviteStore, { IThreepidInvite, IThreepidInviteWireFormat } from "../../stores/ThreepidInviteStore";
-import { UIFeature } from "../../settings/UIFeature";
-import DialPadModal from "../views/voip/DialPadModal";
-import { showToast as showMobileGuideToast } from "../../toasts/MobileGuideToast";
-import { shouldUseLoginForWelcome } from "../../utils/pages";
-import RoomListStore from "../../stores/room-list/RoomListStore";
-import { RoomUpdateCause } from "../../stores/room-list/models";
-import { ModuleRunner } from "../../modules/ModuleRunner";
-import Spinner from "../views/elements/Spinner";
-import QuestionDialog from "../views/dialogs/QuestionDialog";
-import UserSettingsDialog from "../views/dialogs/UserSettingsDialog";
-import CreateRoomDialog from "../views/dialogs/CreateRoomDialog";
-import KeySignatureUploadFailedDialog from "../views/dialogs/KeySignatureUploadFailedDialog";
-import IncomingSasDialog from "../views/dialogs/IncomingSasDialog";
-import CompleteSecurity from "./auth/CompleteSecurity";
-import Welcome from "../views/auth/Welcome";
-import ForgotPassword from "./auth/ForgotPassword";
-import E2eSetup from "./auth/E2eSetup";
-import Registration from "./auth/Registration";
-import Login from "./auth/Login";
-import ErrorBoundary from "../views/elements/ErrorBoundary";
-import VerificationRequestToast from "../views/toasts/VerificationRequestToast";
-import PerformanceMonitor, { PerformanceEntryNames } from "../../performance";
-import UIStore, { UI_EVENTS } from "../../stores/UIStore";
-import SoftLogout from "./auth/SoftLogout";
-import { makeRoomPermalink } from "../../utils/permalinks/Permalinks";
-import { copyPlaintext } from "../../utils/strings";
-import { PosthogAnalytics } from "../../PosthogAnalytics";
-import { initSentry } from "../../sentry";
-import LegacyCallHandler from "../../LegacyCallHandler";
-import { showSpaceInvite } from "../../utils/space";
-import { ButtonEvent } from "../views/elements/AccessibleButton";
-import { ActionPayload } from "../../dispatcher/payloads";
-import { SummarizedNotificationState } from "../../stores/notifications/SummarizedNotificationState";
-import Views from "../../Views";
-import { FocusNextType, ViewRoomPayload } from "../../dispatcher/payloads/ViewRoomPayload";
-import { ViewHomePagePayload } from "../../dispatcher/payloads/ViewHomePagePayload";
-import { AfterLeaveRoomPayload } from "../../dispatcher/payloads/AfterLeaveRoomPayload";
-import { DoAfterSyncPreparedPayload } from "../../dispatcher/payloads/DoAfterSyncPreparedPayload";
-import { ViewStartChatOrReusePayload } from "../../dispatcher/payloads/ViewStartChatOrReusePayload";
-import { leaveRoomBehaviour } from "../../utils/leave-behaviour";
-import { CallStore } from "../../stores/CallStore";
-import { IRoomStateEventsActionPayload } from "../../actions/MatrixActionCreators";
-import { ShowThreadPayload } from "../../dispatcher/payloads/ShowThreadPayload";
-import { RightPanelPhases } from "../../stores/right-panel/RightPanelStorePhases";
-import RightPanelStore from "../../stores/right-panel/RightPanelStore";
-import { TimelineRenderingType } from "../../contexts/RoomContext";
-import { UseCaseSelection } from "../views/elements/UseCaseSelection";
-import { ValidatedServerConfig } from "../../utils/ValidatedServerConfig";
-import { isLocalRoom } from "../../utils/localRoom/isLocalRoom";
-import { SDKContext, SdkContextClass } from "../../contexts/SDKContext";
-import { viewUserDeviceSettings } from "../../actions/handlers/viewUserDeviceSettings";
-import { cleanUpBroadcasts, VoiceBroadcastResumer } from "../../voice-broadcast";
-import GenericToast from "../views/toasts/GenericToast";
-import RovingSpotlightDialog from "../views/dialogs/spotlight/SpotlightDialog";
-import { findDMForUser } from "../../utils/dm/findDMForUser";
-import { Linkify } from "../../HtmlUtils";
-import { NotificationLevel } from "../../stores/notifications/NotificationLevel";
-import { UserTab } from "../views/dialogs/UserTab";
-import { shouldSkipSetupEncryption } from "../../utils/crypto/shouldSkipSetupEncryption";
-import { Filter } from "../views/dialogs/spotlight/Filter";
-import { checkSessionLockFree, getSessionLock } from "../../utils/SessionLock";
-import { SessionLockStolenView } from "./auth/SessionLockStolenView";
-import { ConfirmSessionLockTheftView } from "./auth/ConfirmSessionLockTheftView";
-import { LoginSplashView } from "./auth/LoginSplashView";
-import { cleanUpDraftsIfRequired } from "../../DraftCleaner";
+} from "matrix-react-sdk/src/stores/notifications/RoomNotificationStateStore";
+import { SettingLevel } from "matrix-react-sdk/src/settings/SettingLevel";
+import ThreepidInviteStore, { IThreepidInvite, IThreepidInviteWireFormat } from "matrix-react-sdk/src/stores/ThreepidInviteStore";
+import { UIFeature } from "matrix-react-sdk/src/settings/UIFeature";
+import DialPadModal from "matrix-react-sdk/src/components/views/voip/DialPadModal";
+import { showToast as showMobileGuideToast } from "matrix-react-sdk/src/toasts/MobileGuideToast";
+import { shouldUseLoginForWelcome } from "matrix-react-sdk/src/utils/pages";
+import RoomListStore from "matrix-react-sdk/src/stores/room-list/RoomListStore";
+import { RoomUpdateCause } from "matrix-react-sdk/src/stores/room-list/models";
+import { ModuleRunner } from "matrix-react-sdk/src/modules/ModuleRunner";
+import Spinner from "matrix-react-sdk/src/components/views/elements/Spinner";
+import QuestionDialog from "matrix-react-sdk/src/components/views/dialogs/QuestionDialog";
+import UserSettingsDialog from "matrix-react-sdk/src/components/views/dialogs/UserSettingsDialog";
+import CreateRoomDialog from "matrix-react-sdk/src/components/views/dialogs/CreateRoomDialog";
+import KeySignatureUploadFailedDialog from "matrix-react-sdk/src/components/views/dialogs/KeySignatureUploadFailedDialog";
+import IncomingSasDialog from "matrix-react-sdk/src/components/views/dialogs/IncomingSasDialog";
+import CompleteSecurity from "matrix-react-sdk/src/components/structures/auth/CompleteSecurity";
+import Welcome from "matrix-react-sdk/src/components/views/auth/Welcome";
+import ForgotPassword from "matrix-react-sdk/src/components/structures/auth/ForgotPassword";
+import E2eSetup from "matrix-react-sdk/src/components/structures/auth/E2eSetup";
+import Registration from "matrix-react-sdk/src/components/structures/auth/Registration";
+import Login from "matrix-react-sdk/src/components/structures/auth/Login";
+import ErrorBoundary from "matrix-react-sdk/src/components/views/elements/ErrorBoundary";
+import VerificationRequestToast from "matrix-react-sdk/src/components/views/toasts/VerificationRequestToast";
+import PerformanceMonitor, { PerformanceEntryNames } from "matrix-react-sdk/src/performance";
+import UIStore, { UI_EVENTS } from "matrix-react-sdk/src/stores/UIStore";
+import SoftLogout from "matrix-react-sdk/src/components/structures/auth/SoftLogout";
+import { makeRoomPermalink } from "matrix-react-sdk/src/utils/permalinks/Permalinks";
+import { copyPlaintext } from "matrix-react-sdk/src/utils/strings";
+import { PosthogAnalytics } from "matrix-react-sdk/src/PosthogAnalytics";
+import { initSentry } from "matrix-react-sdk/src/sentry";
+import LegacyCallHandler from "matrix-react-sdk/src/LegacyCallHandler";
+import { showSpaceInvite } from "matrix-react-sdk/src/utils/space";
+import { ButtonEvent } from "matrix-react-sdk/src/components/views/elements/AccessibleButton";
+import { ActionPayload } from "matrix-react-sdk/src/dispatcher/payloads";
+import { SummarizedNotificationState } from "matrix-react-sdk/src/stores/notifications/SummarizedNotificationState";
+import Views from "matrix-react-sdk/src/Views";
+import { FocusNextType, ViewRoomPayload } from "matrix-react-sdk/src/dispatcher/payloads/ViewRoomPayload";
+import { ViewHomePagePayload } from "matrix-react-sdk/src/dispatcher/payloads/ViewHomePagePayload";
+import { AfterLeaveRoomPayload } from "matrix-react-sdk/src/dispatcher/payloads/AfterLeaveRoomPayload";
+import { DoAfterSyncPreparedPayload } from "matrix-react-sdk/src/dispatcher/payloads/DoAfterSyncPreparedPayload";
+import { ViewStartChatOrReusePayload } from "matrix-react-sdk/src/dispatcher/payloads/ViewStartChatOrReusePayload";
+import { leaveRoomBehaviour } from "matrix-react-sdk/src/utils/leave-behaviour";
+import { CallStore } from "matrix-react-sdk/src/stores/CallStore";
+import { IRoomStateEventsActionPayload } from "matrix-react-sdk/src/actions/MatrixActionCreators";
+import { ShowThreadPayload } from "matrix-react-sdk/src/dispatcher/payloads/ShowThreadPayload";
+import { RightPanelPhases } from "matrix-react-sdk/src/stores/right-panel/RightPanelStorePhases";
+import RightPanelStore from "matrix-react-sdk/src/stores/right-panel/RightPanelStore";
+import { TimelineRenderingType } from "matrix-react-sdk/src/contexts/RoomContext";
+import { UseCaseSelection } from "matrix-react-sdk/src/components/views/elements/UseCaseSelection";
+import { ValidatedServerConfig } from "matrix-react-sdk/src/utils/ValidatedServerConfig";
+import { isLocalRoom } from "matrix-react-sdk/src/utils/localRoom/isLocalRoom";
+import { SDKContext, SdkContextClass } from "matrix-react-sdk/src/contexts/SDKContext";
+import { viewUserDeviceSettings } from "matrix-react-sdk/src/actions/handlers/viewUserDeviceSettings";
+import { cleanUpBroadcasts, VoiceBroadcastResumer } from "matrix-react-sdk/src/voice-broadcast";
+import GenericToast from "matrix-react-sdk/src/components/views/toasts/GenericToast";
+import RovingSpotlightDialog from "matrix-react-sdk/src/components/views/dialogs/spotlight/SpotlightDialog";
+import { findDMForUser } from "matrix-react-sdk/src/utils/dm/findDMForUser";
+import { Linkify } from "matrix-react-sdk/src/HtmlUtils";
+import { NotificationLevel } from "matrix-react-sdk/src/stores/notifications/NotificationLevel";
+import { UserTab } from "matrix-react-sdk/src/components/views/dialogs/UserTab";
+import { shouldSkipSetupEncryption } from "matrix-react-sdk/src/utils/crypto/shouldSkipSetupEncryption";
+import { Filter } from "matrix-react-sdk/src/components/views/dialogs/spotlight/Filter";
+import { checkSessionLockFree, getSessionLock } from "matrix-react-sdk/src/utils/SessionLock";
+import { SessionLockStolenView } from "matrix-react-sdk/src/components/structures/auth/SessionLockStolenView";
+import { ConfirmSessionLockTheftView } from "matrix-react-sdk/src/components/structures/auth/ConfirmSessionLockTheftView";
+import { LoginSplashView } from "matrix-react-sdk/src/components/structures/auth/LoginSplashView";
+import { cleanUpDraftsIfRequired } from "matrix-react-sdk/src/DraftCleaner";
 
 // legacy export
-export { default as Views } from "../../Views";
+export { default as Views } from "matrix-react-sdk/src/Views";
 
 const AUTH_SCREENS = ["register", "login", "forgot_password", "start_sso", "start_cas", "welcome"];
 
@@ -473,6 +473,9 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
 
     public componentDidMount(): void {
         window.addEventListener("resize", this.onWindowResized);
+        // TFX
+        window.addEventListener("message", this.onMessage);
+        // TFX
     }
 
     public componentDidUpdate(prevProps: IProps, prevState: IState): void {
@@ -498,10 +501,136 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
         UIStore.destroy();
         this.state.resizeNotifier.removeListener("middlePanelResized", this.dispatchTimelineResize);
         window.removeEventListener("resize", this.onWindowResized);
+        // TFX
+        window.removeEventListener("message", this.onMessage);
+        // TFX
 
         this.stores.accountPasswordStore.clearPassword();
         this.voiceBroadcastResumer?.destroy();
     }
+
+    // TFX
+    private onMessage(event: MessageEvent): void {
+        if (
+            !event.origin.includes("thewaternetwork.com") &&
+            !event.origin.includes("st.tfxlabs.com") &&
+            !event.origin.includes("vagrant.tfx.com")
+        ) {
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "unknown",
+                    ok: false,
+                    error: "Invalid origin",
+                }),
+                { targetOrigin: event.origin },
+            );
+            return;
+        }
+
+        console.log("[IFrame] New event", event);
+
+        if (this.state.view === Views.LOADING) {
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "loading",
+                    ok: true,
+                    error: false,
+                }),
+                { targetOrigin: event.origin },
+            );
+        }
+
+        let credentials: (IMatrixClientCreds & { forceLogout?: boolean }) | null = null;
+        try {
+            credentials = JSON.parse(event.data);
+        } catch (e) {
+            event.source!.postMessage(
+                JSON.stringify({
+                    action: "unknown",
+                    ok: false,
+                    error: "Invalid credentials format",
+                }),
+                { targetOrigin: event.origin },
+            );
+            return;
+        }
+
+        if (
+            credentials &&
+            credentials.forceLogout &&
+            credentials.homeserverUrl &&
+            credentials.userId &&
+            credentials.deviceId &&
+            credentials.accessToken
+        ) {
+            const client = MatrixClientPeg.get();
+            const sameUser =
+                client &&
+                credentials.accessToken === client.getAccessToken() &&
+                credentials.homeserverUrl === client.getHomeserverUrl() &&
+                credentials.userId === client.getUserId() &&
+                (!credentials.deviceId || credentials.deviceId === client.getDeviceId());
+
+            if ("forceLogout" in credentials && credentials.forceLogout) {
+                if (sameUser) {
+                    Lifecycle.logout();
+                    console.log("[IFrame] User logged-out");
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "logout",
+                            ok: true,
+                            error: false,
+                        }),
+                        { targetOrigin: event.origin },
+                    );
+                } else {
+                    Lifecycle.logout();
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "logout",
+                            ok: false,
+                            error: "Not same user or invalid credentials",
+                        }),
+                        { targetOrigin: event.origin },
+                    );
+                }
+            } else {
+                if (sameUser) {
+                    parent.postMessage(
+                        JSON.stringify({
+                            action: "login",
+                            ok: false,
+                            error: "Already logged-in",
+                        }),
+                        { targetOrigin: event.origin },
+                    );
+                } else {
+                    delete credentials.forceLogout;
+                    Lifecycle.setLoggedIn(credentials).then(() => {
+                        console.log("[IFrame] User logged-in");
+                        parent.postMessage(
+                            JSON.stringify({
+                                action: "login",
+                                ok: true,
+                                error: false,
+                            }),
+                            { targetOrigin: event.origin },
+                        );
+                    }).catch((e) => {
+                        parent.postMessage(
+                            JSON.stringify({
+                                action: "login",
+                                ok: false,
+                                error: e.toString(),
+                            }),
+                            { targetOrigin: event.origin },
+                        );
+                    })
+                }
+            }
+        }
+    }
+    // TFX
 
     private onWindowResized = (): void => {
         // XXX: This is a very unreliable way to detect whether or not the the devtools are open
@@ -1644,14 +1773,14 @@ export default class MatrixChat extends React.PureComponent<IProps, IState> {
             if (haveNewVersion) {
                 Modal.createDialogAsync(
                     import(
-                        "../../async-components/views/dialogs/security/NewRecoveryMethodDialog"
+                        "matrix-react-sdk/src/async-components/views/dialogs/security/NewRecoveryMethodDialog"
                     ) as unknown as Promise<typeof NewRecoveryMethodDialog>,
                     { newVersionInfo: newVersionInfo! },
                 );
             } else {
                 Modal.createDialogAsync(
                     import(
-                        "../../async-components/views/dialogs/security/RecoveryMethodRemovedDialog"
+                        "matrix-react-sdk/src/async-components/views/dialogs/security/RecoveryMethodRemovedDialog"
                     ) as unknown as Promise<typeof RecoveryMethodRemovedDialog>,
                 );
             }
