@@ -1,15 +1,3 @@
 {
-    "src/components/structures/auth/Login.tsx": "src/components/structures/auth/Login.tsx",
-    "src/components/structures/auth/LoginSplashView.tsx": "src/components/structures/auth/LoginSplashView.tsx",
-    "src/components/structures/HomePage.tsx": "src/components/structures/HomePage.tsx",
-    "src/components/structures/MatrixChat.tsx": "src/components/structures/MatrixChat.tsx",
-    "src/components/structures/UserMenu.tsx": "src/components/structures/UserMenu.tsx",
-    "src/components/views/auth/AuthBody.tsx": "src/components/views/auth/AuthBody.tsx",
-    "src/components/views/auth/AuthFooter.tsx": "src/components/views/auth/AuthFooter.tsx",
-    "src/components/views/auth/AuthHeaderLogo.tsx": "src/components/views/auth/AuthHeaderLogo.tsx",
-    "src/components/views/auth/AuthPage.tsx": "src/components/views/auth/AuthPage.tsx",
-    "src/components/views/auth/PasswordLogin.tsx": "src/components/views/auth/PasswordLogin.tsx",
-    "src/components/views/dialogs/UserSettingsDialog.tsx": "src/components/views/dialogs/UserSettingsDialog.tsx",
-    "src/components/views/elements/ServerPicker.tsx": "src/components/views/elements/ServerPicker.tsx",
-    "src/components/views/right_panel/RoomSummaryCard.tsx": "src/components/views/right_panel/RoomSummaryCard.tsx"
+    "src/components/structures/MatrixChat.tsx": "src/components/structures/MatrixChat.tsx"
 }
