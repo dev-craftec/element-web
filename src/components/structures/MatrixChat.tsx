@@ -148,6 +148,10 @@ import { cleanUpDraftsIfRequired } from "matrix-react-sdk/src/DraftCleaner";
 // legacy export
 export { default as Views } from "matrix-react-sdk/src/Views";
 
+// TFX
+console.log('[IFrame] Custom MatrixChat component loaded');
+// TFX
+
 const AUTH_SCREENS = ["register", "login", "forgot_password", "start_sso", "start_cas", "welcome"];
 
 // Actions that are redirected through the onboarding process prior to being
